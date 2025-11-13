@@ -1,7 +1,7 @@
 // import { useRef } from "react";
 // import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
-// import VideoShowcaseSection from "@/components/VideoShowcaseSection";
+import VideoShowcaseSection from "@/components/VideoShowcaseSection";
 // import VideoContentSection from "@/components/VideoContentSection";
 // import FeaturesSection from "@/components/FeaturesSection";
 // import BusinessShowcaseSection from "@/components/BusinessShowcaseSection";
