@@ -5,7 +5,7 @@ import { useMobileVideoPlayback } from "../hooks/useMobileVideoPlayback";
 import Modal from "@/components/Modal";
 import HeroForm from "@/components/HeroForm";
 import VideoShowcaseSection from "@/components/VideoShowcaseSection";
-import { FaXTwitter, FaFacebookF, FaInstagram } from "react-icons/fa6";
+import { FaTwitter, FaFacebookF, FaInstagram } from "react-icons/fa";
 
 interface HeroSectionProps {
   heroContent: HeroContent;
@@ -51,7 +51,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ heroContent }) => {
           <img
             src="/ulo-log-alt.png"
             alt="Ulo Logo"
-            className="w-[11rem] object-contain"
+            className="w-[9rem] object-contain"
           />
 
           {/* Social Icons */}
@@ -78,7 +78,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ heroContent }) => {
               rel="noopener noreferrer"
               className="hover:text-[#8B5E3C] transition-colors duration-300"
             >
-              <FaXTwitter />
+              <FaTwitter />
             </a>
           </div>
         </div>
