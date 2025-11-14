@@ -6,6 +6,7 @@ import Modal from "@/components/Modal";
 import HeroForm from "@/components/HeroForm";
 import VideoShowcaseSection from "@/components/VideoShowcaseSection";
 import { FaTwitter, FaFacebookF, FaInstagram } from "react-icons/fa";
+import { FaPlay } from "react-icons/fa";
 
 interface HeroSectionProps {
   heroContent: HeroContent;
@@ -51,7 +52,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ heroContent }) => {
           <img
             src="/ulo-log-alt.png"
             alt="Ulo Logo"
-            className="w-[9rem] object-contain"
+            className="w-[4.5rem] sm:w-[5.5rem] object-contain"
           />
 
           {/* Social Icons */}
@@ -114,8 +115,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ heroContent }) => {
           {/* Watch Video (white outline) */}
           <button
             onClick={() => setIsVideoModalOpen(true)}
-            className="bg-transparent border border-white text-white px-6 py-3 text-[17px] rounded-[7px] hover:bg-white/10 transition-all"
+            className="bg-transparent border border-white text-white px-6 py-3 text-[17px] rounded-[7px] hover:bg-white/10 transition-all flex items-center gap-2"
           >
+            <FaPlay className="text-white text-sm" />
             Watch Video
           </button>
         </div>
