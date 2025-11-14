@@ -14,6 +14,7 @@ const HeroForm: React.FC = () => {
     email: "",
     country: "",
   });
+  const [error, setError] = useState<string | null>(null);
 
   const [isLoading, setIsLoading] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
@@ -69,16 +70,7 @@ const HeroForm: React.FC = () => {
 
     setIsLoading(true);
 
-    // console.log("formdata", formData);
-
-    const { email, fullName, phoneNumber, country } = formData;
-
-    const payload = {
-      email: email,
-      fullName: fullName,
-      phoneNumber: phoneNumber,
-      country: country,
-    };
+    const payload = { ...formData };
 
     try {
       const response = await fetch(
@@ -91,25 +83,39 @@ const HeroForm: React.FC = () => {
           body: JSON.stringify(payload),
         }
       );
-
       if (!response.ok) {
-        throw new Error("Failed to submit form");
+        const errorData = await response.json().catch(() => null);
+
+        const message =
+          errorData?.message ||
+          errorData?.error ||
+          "Something went wrong. Please try again.";
+
+        setError(message);
+
+        setIsLoading(false);
+        return;
       }
 
       const data = await response.json();
-    //   console.log("Form submitted:", data);
 
       setIsLoading(false);
       setShowConfetti(true);
-      setStep(2); // move to success step
+      setStep(2);
 
-      // Stop confetti after 5 seconds
       setTimeout(() => setShowConfetti(false), 5000);
+
       return data;
-    } catch (error) {
+    } catch (error: any) {
       setIsLoading(false);
-      console.error(error.response);
-      alert("Something went wrong. Please try again.");
+
+      const message =
+        error?.message || "Network error. Please check your connection.";
+
+      setErrors((prev) => ({
+        ...prev,
+        api: message,
+      }));
     }
   };
 
@@ -168,6 +174,7 @@ const HeroForm: React.FC = () => {
               )}
             </div>
           ))}
+          {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
 
           <div className="pt-5">
             <button
