@@ -47,22 +47,10 @@ const ScrollDotsSection: React.FC = () => {
     'https://res.cloudinary.com/dfcsaxtru/video/upload/v1756394424/CONNECTING_YOU_v9kp2u.mp4'
 
   return (
-    <div className="py-10 md:py-20">
-      <div className="ml-12 md:ml-14">
-        <video
-          ref={videoRef}
-          className="w-[500px] h-[95px] md:h-[90px] object-fill mb-0md:mb-3 mx-auto"
-          muted
-          loop={true}
-          autoPlay={true}
-          playsInline={true}
-          preload="metadata"
-          controls={false}
-          webkit-playsinline="true"
-        >
-          <source src={videoURL} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
+    <div className="pb-10 md:pb-20">
+      <div className="text-center mb-20">
+        <h1 className="text-6xl font-semibold text-primary mb-3">Introducing Ulô</h1>
+        <p className="text-base text-primary/60 max-w-sm mx-auto">Connecting you to Africa.</p>
       </div>
       <div
         ref={scrollDotsRef}

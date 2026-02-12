@@ -24,20 +24,30 @@ export default function Navbar({ howToJoinSectionRef }: NavbarProps) {
     hoverTimeoutRef.current = setTimeout(() => setOpenDropdown(null), 150);
   };
 
+  // Generic scroll function
+  const scrollToSection = (sectionId: string) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+    setMobileMenuOpen(false);
+  };
+
   const scrollToJoinSection = () => {
-    howToJoinSectionRef.current?.scrollIntoView();
+    howToJoinSectionRef.current?.scrollIntoView({ behavior: "smooth" });
     setMobileMenuOpen(false);
   };
 
   return (
     <header className="absolute inset-x-0 top-0 z-50">
       <nav className="flex items-center justify-between p-10 lg:px-12">
+        
         {/* Logo */}
         <div className="flex lg:flex-1">
           <Link to="/" onClick={() => setMobileMenuOpen(false)}>
             <img
-              className="w-[60px] lg:w-[90px] h-auto"
-              src="/ulo-log-alt.png"
+              className="w-[60px] lg:w-[80px] h-auto"
+              src="/logo-light.png"
               alt="logo"
             />
           </Link>
@@ -57,9 +67,28 @@ export default function Navbar({ howToJoinSectionRef }: NavbarProps) {
         {/* Desktop Navigation */}
         <div className="hidden lg:flex lg:gap-x-12">
           <div className="hidden md:flex items-center space-x-16 px-12 py-4 rounded-full text-white bg-white/10 border border-white/40 backdrop-blur-md">
-            <Link to="/pricing">Products</Link>
-            <Link to="/pricing">Services</Link>
-            <Link to="/pricing">Community</Link>
+
+            <button
+              onClick={() => scrollToSection("handsfree-section-1")}
+              className="hover:opacity-70 transition"
+            >
+              Products
+            </button>
+
+            <button
+              onClick={() => scrollToSection("xperience-section-1")}
+              className="hover:opacity-70 transition"
+            >
+              Services
+            </button>
+
+            <button
+              onClick={() => scrollToSection("borderless-section-1")}
+              className="hover:opacity-70 transition"
+            >
+              Community
+            </button>
+
           </div>
         </div>
 
@@ -67,7 +96,7 @@ export default function Navbar({ howToJoinSectionRef }: NavbarProps) {
         <div className="hidden lg:flex lg:flex-1 items-center lg:justify-end">
           <button
             onClick={scrollToJoinSection}
-            className="group inline-flex items-center rounded-full border border-white px-3 py-3 transition duration-300"
+            className="group inline-flex items-center rounded-full border border-white px-2 py-2 transition duration-300"
           >
             <span className="text-white font-light pl-2">
               Experience Ulô
@@ -85,11 +114,13 @@ export default function Navbar({ howToJoinSectionRef }: NavbarProps) {
           className="lg:hidden"
         >
           <div className="fixed inset-0 z-50 bg-black/50" />
+
           <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white p-6 sm:max-w-sm">
+
             <div className="flex items-center justify-between">
               <Link to="/" onClick={() => setMobileMenuOpen(false)}>
                 <img
-                  src="/ulo-logo.png"
+                  src="/logo-dark.png"
                   alt="logo"
                   className="w-[60px]"
                 />
@@ -105,33 +136,31 @@ export default function Navbar({ howToJoinSectionRef }: NavbarProps) {
             </div>
 
             <div className="mt-6 space-y-6 py-6">
-              <Link
-                to="/pricing"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block text-gray-900 font-medium"
+
+              <button
+                onClick={() => scrollToSection("handsfree-section-1")}
+                className="block w-full text-left text-gray-900 font-medium"
               >
                 Products
-              </Link>
+              </button>
 
-              <Link
-                to="/pricing"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block text-gray-900 font-medium"
+              <button
+                onClick={() => scrollToSection("xperience-section-1")}
+                className="block w-full text-left text-gray-900 font-medium"
               >
                 Services
-              </Link>
+              </button>
 
-              <Link
-                to="/pricing"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block text-gray-900 font-medium"
+              <button
+                onClick={() => scrollToSection("borderless-section-1")}
+                className="block w-full text-left text-gray-900 font-medium"
               >
                 Community
-              </Link>
+              </button>
 
             </div>
 
-            {/* Auth CTA */}
+            {/* Mobile CTA */}
             <div className="py-6 space-y-4">
               <button
                 onClick={scrollToJoinSection}
@@ -145,6 +174,7 @@ export default function Navbar({ howToJoinSectionRef }: NavbarProps) {
                 </span>
               </button>
             </div>
+
           </DialogPanel>
         </Dialog>
       </nav>

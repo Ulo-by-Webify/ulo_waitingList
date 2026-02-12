@@ -3,19 +3,17 @@ import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import VideoShowcaseSection from "@/components/VideoShowcaseSection";
 import VideoContentSection from "@/components/VideoContentSection";
-import FeaturesSection from "@/components/FeaturesSection";
-import BusinessShowcaseSection from "@/components/BusinessShowcaseSection";
 import HowToJoinSection, {
   HowToJoinSectionRef,
 } from "@/components/HowToJoinSection";
-import CTASection from "@/components/CTASection";
 import FAQSection from "@/components/FAQSection";
 import Footer from "@/components/Footer";
 import ScrollDotsSection from "@/components/ScrollDotsSection";
 import AncillaryServicesShowcase from "@/components/AncillaryServicesShowcase";
 import { heroContent, businessSlides, flippedSlides } from "@/data";
-import MusicToggleButton from "@/components/MusicToggleButton";
 import { useIsMobile } from "@/hooks/use-mobile";
+import ServicesCarousel from "@/components/ServicesCarousel";
+import ExperienceSection from "@/components/ExperienceSection";
 
 const Index = () => {
   const isMobile = useIsMobile();
@@ -32,94 +30,118 @@ const Index = () => {
 
         <ScrollDotsSection />
 
-        <div className="bg-gray-50">
           <VideoContentSection
             title1="Hands‑Free Management"
-            subtitle1="From bookings to check-outs, Ulô handles every detail. This means you earn effortlessly, while your guests enjoy a flawless stay."
+            subtitle1="From bookings and cleaning to check-outs, Ulô takes care of every detail—so you earn effortlessly while we manage everything."
             video1="/icons/hands-free.png"
+            media1ClassName="w-[300px] md:w-[500px] object-contain mx-auto"
             title2="Focus on what matters most"
-            subtitle2="With Ulô Associates handling the chats, check-ins, and care, hosting feels easy — and guests feel at home."
+            subtitle2="From messages to check-ins, calendars to care, we take care of everything for you."
             video2="/videos/Hands‑Free-Management/1.webm"
+            media2ClassName="ml-7 md:ml-14 w-full max-h-[320px] md:max-h-[520px] object-contain"
             listItems={[
-              "Automated booking management",
-              "24/7 guest communication & support",
-              "Seamless check-in, check-out & cleaning",
+              "Human-managed bookings and updates.",
+              "24/7 guest support from trained professionals.",
+              "Seamless check-in, check-out and cleaning.",
             ]}
             sectionId="handsfree-section"
           />
-        </div>
 
           
           <VideoContentSection
             title1="Xperience Gallery"
-            subtitle1="From vibrant cities to local secrets, Ulô uncovers it all, helping you explore, connect, and make travel unforgettable."
-            video1="/videos/XPERIENCE-GALLERY-1.mp4"
+            subtitle1="From vibrant cities to cultural local events, capture and save meaningful moments throughout your journey—making every trip unforgettable."
+            video1="/xperience-gallery.png"
+            media1WrapperClassName="relative overflow-hidden"
+            media1ClassName="w-full lg:w-[550px] h-[650px] object-cover object-top mx-auto"
             title2="See the soul of every stay"
-            subtitle2="Ulô’s Xperience Gallery reveals the unique character of every home and journey, building the trust and connection that inspires your next adventure."
-            video2="/videos/XPERIENCE-GALLERY2.mp4"
+            subtitle2="Your journey is richer when every experience and special moment is captured."
+            video2="/videos/XPERIENCE-GALLERY-1.mp4"
+            media2ClassName="ml-7 md:ml-14 w-full max-h-[320px] md:max-h-[520px] object-contain"
             listItems={[
-              "Explore authentic reels of vibrant cities and local secrets.",
-              "Create & share your unique city story with friends and family.",
-              "Feel the home’s aura through video reels before you book.",
+              "Create your own city experience album.",
+              "See past guest experiences before booking.",
+              "Get inspired by local experiences for your next trip.",
             ]}
             sectionId="xperience-section"
+            bottomFade={true}
           />
+
 
         <VideoContentSection
           title1="Borderless Payment"
-          subtitle1="Pay with confidence. Ulô Cowries makes every transaction, from booking to last-minute extras, simple, seamless, and secure."
-          video1="/videos/BORDERLESS-PAYMENT1.mp4"
+          subtitle1="Ulô Cowries makes every transaction, from booking to last-minute extras, simple, seamless, and secure."
+          video1="/icons/coweries.png"
+          media1ClassName="w-[300px] md:w-[500px] object-contain mx-auto"
           title2="Seamless Journeys, Simple Payments"
-          subtitle2="Ulô Cowries makes paying simple and worry-free. You get to pay your way, so your focus stays on the adventure, not the transaction."
-          video2="/videos/BORDERLESS-PAYMENT2.mp4"
+          subtitle2="Ulô Cowries enables you to focus stays on the adventure, not the transaction."
+          video2="/cowries-wallet.png"
+          media2ClassName="w-full lg:w-[650px] max-h-[320px] md:max-h-[520px] object-contain"
           listItems={[
-            "Convert with USD valuation — 1 ACW = 1 USD",
-            "Share Cowries easily with family & friends",
-            "Withdraw in any African currency with ease",
+            "Convert with USD valuation—1 ACW = 1 USD.",
+            "Share Cowries easily with family & friends.",
+            "Withdraw in any African currency with ease.",
           ]}
           sectionId="borderless-section"
         />
 
         <VideoContentSection
           title1="Ulô Associates"
-          subtitle1="Your personal city companion. Managing your stay, guiding your steps, and making every moment smoother."
-          video1="/videos/ULÔ-ASSOCIATE.mp4"
+          subtitle1="A trained and certified professional dedicated to ensuring your stay is prepared, seamless, and fully supported—from arrival to checkout."
+          video1="/icons/ulo-associates.png"
+          media1ClassName="w-[300px] md:w-[500px] object-contain mx-auto"
           title2="Feel the city, not the stress"
-          subtitle2="With Ulô Associates, guests are welcomed like family, guided through culture and hidden gems, and supported every step for a truly effortless stay."
-          video2="/videos/ULÔASSOCIATE-2.mp4"
+          subtitle2="Welcomes you like family and supported every step for a truly effortless stay."
+          video2="/icons/ulo-badge.png"
+          media2ClassName="w-full max-h-[320px] md:max-h-[520px] object-contain"
           listItems={[
-            " Welcome you at check-in and ensure comfort",
-            " Connect you with culture, tours, and insider experiences",
-            " ⁠Handle safety, logistics, and local support",
+            " Arrive to a fully prepared, clean home.",
+            " Enjoy a smooth, stress-free stay.",
+            " Get reliable 24/7 professional support.",
           ]}
           sectionId="associates-section"
         />
-        <FeaturesSection />
 
-        {/* <BusinessShowcaseSection businessSlides={businessSlides} /> */}
-
-        <AncillaryServicesShowcase
-          slides={flippedSlides}
-          sectionTitle="Go Beyond the Stay"
+        <VideoContentSection
+          title1="Guest Navbook"
+          subtitle1="Your ultimate guide to every stay. Explore neighborhoods, discover local secrets, and navigate Africa with confidence."
+          video1="/icons/navbook.png"
+          media1ClassName="w-[300px] md:w-[500px] object-contain mx-auto"
+          title2="Navigate the city like a local"
+          subtitle2="Get insider tips and local know-how to explore every corner with confidence."
+          video2="/videos/HANDBOOK.mp4"
+          media2ClassName="ml-7 md:ml-14 w-full max-h-[320px] md:max-h-[520px] object-contain"
+          listItems={[
+            "Know where to eat, shop, and explore safely.",
+            "Access hidden spots and authentic cultural experiences.",
+            "Access help when needed.",
+          ]}
+          sectionId="navbook-section"
         />
 
         <VideoContentSection
-          title1="Guest Handbook"
-          subtitle1="Your passport to belonging. This city companion has everything you need to explore African cities with confidence, from key phrases to etiquette and safe spots."
-          video1="/videos/HANDBOOK.mp4"
-          listItems={[
-            "Navigate easily",
-            "Connect authentically",
-            "Access help when needed",
-          ]}
-          sectionId="guestbook-section"
-          isLooped={false}
-        />
-        <CTASection />
+            title1="Triplink"
+            subtitle1="Turn every group trip into a seamless, shared experience. Plan together, manage logistics, and capture memories."
+            video1="/icons/triplink.png"
+            media1WrapperClassName="relative overflow-hidden"
+            media1ClassName="w-full lg:w-[450px] h-[450px] object-cover object-top mx-auto"
+            title2="Create good memories together"
+            subtitle2="Turn every trip into shared stories, laughter, and moments you’ll never forget."
+            video2="/videos/ULÔ-ASSOCIATE.mp4"
+            media2ClassName="ml-7 md:ml-14 w-full max-h-[320px] md:max-h-[520px] object-contain"
+            listItems={[
+              "Invite friends, manage plans, stay in sync.",
+              "Pool funds and track payments easily.",
+              "Save and share itineraries and memories.",
+            ]}
+            sectionId="triplink-section"
+          />
+
+        <ServicesCarousel />
+
+        <ExperienceSection />
 
         <HowToJoinSection ref={howToJoinSectionRef} />
-
-        <FAQSection />
 
         <Footer />
       </div>

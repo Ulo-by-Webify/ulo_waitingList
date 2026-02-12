@@ -7,7 +7,7 @@ import React, {
 import MailerLiteModal from "@/components/mailer-lite/MailerLiteModal";
 
 export interface HowToJoinSectionRef {
-  scrollIntoView: () => void;
+scrollIntoView: (options?: ScrollIntoViewOptions) => void;
   highlightCards: () => void;
 }
 
