@@ -96,23 +96,20 @@ const VideoShowcaseSection: React.FC<VideoShowcaseSectionProps> = ({
 
   return (
     <section
-      className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50"
+      className="py-20 px-4 sm:px-6 lg:px-8"
       id="video-section"
     >
       <div className="max-w-20xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-semibold text-primary mb-4">
-            This is Africa, See for Yourself
-          </h2>
           <p className="text-xl  text-gray-600">
             Not the Africa of postcards
-            <span className="block">but the one you’ve never experienced.</span>
+            <span className="block">but the one you’ve probably never experienced.</span>
           </p>
         </div>
         <div
           ref={containerRef}
           className={`relative bg-gray-900 rounded-3xl md:rounded-[50px] overflow-hidden aspect-video mx-auto ${
-            isFullscreen ? "fixed inset-0 z-50 rounded-none" : "max-w-7xl"
+            isFullscreen ? "fixed inset-0 z-50 rounded-none" : "max-w-5xl"
           }`}
         >
           {/* Show thumbnail preview until play is clicked */}

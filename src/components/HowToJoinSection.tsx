@@ -4,23 +4,21 @@ import React, {
   useImperativeHandle,
   forwardRef,
 } from "react";
-import { Button } from "@/components/ui/button";
 import MailerLiteModal from "@/components/mailer-lite/MailerLiteModal";
 
 export interface HowToJoinSectionRef {
+  scrollIntoView: () => void;
   highlightCards: () => void;
 }
 
 const HowToJoinSection = forwardRef<HowToJoinSectionRef>((props, ref) => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUserType, setSelectedUserType] = useState<
     "host" | "guest" | "associate"
   >("host");
   const [isHighlighting, setIsHighlighting] = useState(false);
-
-  const hostCardRef = useRef<HTMLDivElement>(null);
-  const guestCardRef = useRef<HTMLDivElement>(null);
-  const associateCardRef = useRef<HTMLDivElement>(null);
 
   const handleUserTypeClick = (userType: "host" | "guest" | "associate") => {
     setSelectedUserType(userType);
@@ -39,28 +37,36 @@ const HowToJoinSection = forwardRef<HowToJoinSectionRef>((props, ref) => {
   };
 
   useImperativeHandle(ref, () => ({
+    scrollIntoView: () => {
+      sectionRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    },
     highlightCards,
   }));
 
   return (
-    <section className="px-5 px-" id="how-to-join-section">
-      {/* User selection section */}
-
+    <section
+      ref={sectionRef}
+      id="how-to-join-section"
+      className="px-5 scroll-mt-24"
+    >
       <div className="max-w-6xl mx-auto mb-5">
-        <h2 className="text-4xl font-semibold text-primary mb-24 text-center ">
-          How do you want to experience Ulô
+        <h2 className="text-4xl font-semibold text-primary mb-24 text-center">
+          Experience Ulô as a
         </h2>
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Host Column */}
+          {/* Host */}
           <div
-            ref={hostCardRef}
             className={`relative bg-white rounded-xl shadow-lg p-8 border border-gray-200 hover:shadow-xl transition-all duration-300 flex flex-col items-center text-center h-full ${
               isHighlighting
                 ? "ring-4 ring-primary/50 shadow-2xl transform scale-105 bg-primary/5"
                 : ""
             }`}
           >
-            <div className="flex-1 flex flex-col justify-start">
+            <div className="flex-1 flex flex-col">
               <h3 className="text-2xl font-bold text-gray-900 mb-3">Host</h3>
               <p className="text-lg text-gray-600 mb-3">
                 Share your home. <br /> Earn from it.
@@ -80,16 +86,15 @@ const HowToJoinSection = forwardRef<HowToJoinSectionRef>((props, ref) => {
             </button>
           </div>
 
-          {/* Guest Column */}
+          {/* Guest */}
           <div
-            ref={guestCardRef}
             className={`relative bg-white rounded-xl shadow-lg p-8 border border-gray-200 hover:shadow-xl transition-all duration-300 flex flex-col items-center text-center h-full ${
               isHighlighting
                 ? "ring-4 ring-primary/50 shadow-2xl transform scale-105 bg-primary/5"
                 : ""
             }`}
           >
-            <div className="flex-1 flex flex-col justify-start">
+            <div className="flex-1 flex flex-col">
               <h3 className="text-2xl font-bold text-gray-900 mb-3">Guest</h3>
               <p className="text-lg text-gray-600 mb-3">
                 Explore Africa. Stay connected.
@@ -109,16 +114,15 @@ const HowToJoinSection = forwardRef<HowToJoinSectionRef>((props, ref) => {
             </button>
           </div>
 
-          {/* Associate Column */}
+          {/* Associate */}
           <div
-            ref={associateCardRef}
             className={`relative bg-white rounded-xl shadow-lg p-8 border border-gray-200 hover:shadow-xl transition-all duration-300 flex flex-col items-center text-center h-full ${
               isHighlighting
                 ? "ring-4 ring-primary/50 shadow-2xl transform scale-105 bg-primary/5"
                 : ""
             }`}
           >
-            <div className="flex-1 flex flex-col justify-start">
+            <div className="flex-1 flex flex-col">
               <h3 className="text-2xl font-bold text-gray-900 mb-3">
                 Associate
               </h3>
@@ -142,7 +146,6 @@ const HowToJoinSection = forwardRef<HowToJoinSectionRef>((props, ref) => {
         </div>
       </div>
 
-      {/* MailerLite Modal */}
       <MailerLiteModal
         isOpen={isModalOpen}
         onClose={closeModal}

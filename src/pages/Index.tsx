@@ -32,35 +32,38 @@ const Index = () => {
 
         <ScrollDotsSection />
 
-        <VideoContentSection
-          title1="Hands‑Free Management"
-          subtitle1="From bookings to check-outs, Ulô handles every detail. This means you earn effortlessly, while your guests enjoy a flawless stay."
-          video1="/videos/Hands‑Free-Management/1.webm"
-          title2="Focus on what matters most"
-          subtitle2="With Ulô Associates handling the chats, check-ins, and care, hosting feels easy — and guests feel at home."
-          video2="/videos/Hands‑Free-Management/2.webm"
-          listItems={[
-            "Automated booking management",
-            "24/7 guest communication & support",
-            "Seamless check-in, check-out & cleaning",
-          ]}
-          sectionId="handsfree-section"
-        />
+        <div className="bg-gray-50">
+          <VideoContentSection
+            title1="Hands‑Free Management"
+            subtitle1="From bookings to check-outs, Ulô handles every detail. This means you earn effortlessly, while your guests enjoy a flawless stay."
+            video1="/icons/hands-free.png"
+            title2="Focus on what matters most"
+            subtitle2="With Ulô Associates handling the chats, check-ins, and care, hosting feels easy — and guests feel at home."
+            video2="/videos/Hands‑Free-Management/1.webm"
+            listItems={[
+              "Automated booking management",
+              "24/7 guest communication & support",
+              "Seamless check-in, check-out & cleaning",
+            ]}
+            sectionId="handsfree-section"
+          />
+        </div>
 
-        <VideoContentSection
-          title1="Xperience Gallery"
-          subtitle1="From vibrant cities to local secrets, Ulô uncovers it all, helping you explore, connect, and make travel unforgettable."
-          video1="/videos/XPERIENCE-GALLERY-1.mp4"
-          title2="See the soul of every stay"
-          subtitle2="Ulô’s Xperience Gallery reveals the unique character of every home and journey, building the trust and connection that inspires your next adventure."
-          video2="/videos/XPERIENCE-GALLERY2.mp4"
-          listItems={[
-            "Explore authentic reels of vibrant cities and local secrets.",
-            "Create & share your unique city story with friends and family.",
-            "Feel the home’s aura through video reels before you book.",
-          ]}
-          sectionId="xperience-section"
-        />
+          
+          <VideoContentSection
+            title1="Xperience Gallery"
+            subtitle1="From vibrant cities to local secrets, Ulô uncovers it all, helping you explore, connect, and make travel unforgettable."
+            video1="/videos/XPERIENCE-GALLERY-1.mp4"
+            title2="See the soul of every stay"
+            subtitle2="Ulô’s Xperience Gallery reveals the unique character of every home and journey, building the trust and connection that inspires your next adventure."
+            video2="/videos/XPERIENCE-GALLERY2.mp4"
+            listItems={[
+              "Explore authentic reels of vibrant cities and local secrets.",
+              "Create & share your unique city story with friends and family.",
+              "Feel the home’s aura through video reels before you book.",
+            ]}
+            sectionId="xperience-section"
+          />
 
         <VideoContentSection
           title1="Borderless Payment"

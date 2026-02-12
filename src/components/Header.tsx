@@ -1,341 +1,153 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { gsap } from 'gsap';
-import { Button } from '@/components/ui/button';
-import { Menu, X } from 'lucide-react';
-import { Link } from 'react-router-dom'
-import { smoothScrollToSection } from '@/lib/utils'
+import { Link } from "react-router-dom";
+import { useState, useRef, RefObject } from "react";
+import { Dialog, DialogPanel } from "@headlessui/react";
+import { ArrowRightIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { HiMiniBars3BottomLeft } from "react-icons/hi2";
+import { HowToJoinSectionRef } from "@/components/HowToJoinSection";
 
-interface HeaderProps {
-  howToJoinSectionRef?: React.RefObject<{ highlightCards: () => void }>
+interface NavbarProps {
+  howToJoinSectionRef: RefObject<HowToJoinSectionRef>;
 }
 
-const Header: React.FC<HeaderProps> = ({ howToJoinSectionRef }) => {
-  const headerRef = useRef<HTMLElement>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
-  const mobileMenuRef = useRef<HTMLDivElement>(null)
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [isInHeroSection, setIsInHeroSection] = useState(true)
+export default function Navbar({ howToJoinSectionRef }: NavbarProps) {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
-  // Check if a section is currently in view
-  const isSectionInView = (sectionId: string) => {
-    const section = document.getElementById(sectionId)
-    if (!section) return false
+  const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-    const rect = section.getBoundingClientRect()
-    const windowHeight = window.innerHeight
+  const handleMouseEnter = (menu: string) => {
+    if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+    setOpenDropdown(menu);
+  };
 
-    // Consider section in view if at least 30% of it is visible
-    return rect.top < windowHeight * 0.7 && rect.bottom > windowHeight * 0.3
-  }
+  const handleMouseLeave = () => {
+    hoverTimeoutRef.current = setTimeout(() => setOpenDropdown(null), 150);
+  };
 
-  // Enhanced navigation handler with highlight functionality
-  const handleNavClick = (sectionId: string) => {
-    // Special handling for how-to-join-section
-    if (sectionId === 'how-to-join-section' && isSectionInView(sectionId)) {
-      // Section is already in view, highlight the cards instead of scrolling
-      if (howToJoinSectionRef?.current) {
-        howToJoinSectionRef.current.highlightCards()
-      }
-    } else {
-      // Normal scroll behavior
-      smoothScrollToSection(sectionId)
-    }
+  const scrollToJoinSection = () => {
+    howToJoinSectionRef.current?.scrollIntoView();
+    setMobileMenuOpen(false);
+  };
 
-    // Close mobile menu if open with animation
-    if (isMobileMenuOpen) {
-      const menu = mobileMenuRef.current
-      if (menu) {
-        gsap.to(menu, {
-          x: '100%',
-          duration: 0.5,
-          ease: 'power2.out',
-          onComplete: () => setIsMobileMenuOpen(false)
-        })
-      } else {
-        setIsMobileMenuOpen(false)
-      }
-    }
-  }
-  // Improved mobile menu toggler for correct open/close animation
-  const toggleMobileMenu = () => {
-    if (!isMobileMenuOpen) {
-      setIsMobileMenuOpen(true)
-    } else {
-      // Animate out, then close
-      const menu = mobileMenuRef.current
-      if (menu) {
-        gsap.to(menu, {
-          x: '100%',
-          duration: 0.5,
-          ease: 'power2.out',
-          onComplete: () => setIsMobileMenuOpen(false)
-        })
-      } else {
-        setIsMobileMenuOpen(false)
-      }
-    }
-  }
-
-  // Animate menu in when it appears
-  useEffect(() => {
-    if (isMobileMenuOpen) {
-      const menu = mobileMenuRef.current
-      if (menu) {
-        gsap.fromTo(
-          menu,
-          { x: '100%' },
-          { x: '0%', duration: 0.5, ease: 'power2.out' }
-        )
-      }
-    }
-  }, [isMobileMenuOpen])
-
-  useEffect(() => {
-    const header = headerRef.current
-    const container = containerRef.current
-    if (!header || !container) return
-    let isExpanded = false
-
-    const handleScroll = () => {
-      const scrollY = window.scrollY
-      const shouldExpand = scrollY < 870
-      const inHeroSection = scrollY < 870 // Hero section threshold
-
-      // Update hero section state for color changes
-      setIsInHeroSection(inHeroSection)
-
-      if (shouldExpand && !isExpanded) {
-        isExpanded = true
-        gsap.to(container, {
-          duration: 0.6,
-          maxWidth: '80%',
-          borderRadius: '32px',
-          marginTop: '8px',
-          padding: '12px 64px',
-          scale: 1.05,
-          ease: 'power2.out'
-        })
-      } else if (!shouldExpand && isExpanded) {
-        isExpanded = false
-        gsap.to(container, {
-          duration: 0.6,
-          maxWidth: '65%',
-          borderRadius: '24px',
-          marginTop: '0px',
-          padding: '6px 54px',
-          scale: 1,
-          ease: 'power2.out'
-        })
-      }
-    }
-
-    // Set initial state based on current scroll position
-    handleScroll()
-
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
   return (
-    <>
-      <header
-        ref={headerRef}
-        className="fixed top-4 left-4 right-4 z-[100] transition-all duration-300"
-      >
-        {/* Desktop Navbar */}
-        <div
-          ref={containerRef}
-          className="hidden md:block mx-auto"
-          style={{ maxWidth: '75%' }}
-        >
-          <div
-            style={{
-              backgroundColor: `rgba(0, 0, 18, 0.1)`,
-              boxShadow: ``
-            }}
-            className="rounded-3xl backdrop-blur-xl transition-all duration-300 py-[6px] px-[54px]"
+    <header className="absolute inset-x-0 top-0 z-50">
+      <nav className="flex items-center justify-between p-10 lg:px-12">
+        {/* Logo */}
+        <div className="flex lg:flex-1">
+          <Link to="/" onClick={() => setMobileMenuOpen(false)}>
+            <img
+              className="w-[60px] lg:w-[90px] h-auto"
+              src="/ulo-log-alt.png"
+              alt="logo"
+            />
+          </Link>
+        </div>
+
+        {/* Mobile burger */}
+        <div className="flex lg:hidden">
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen(true)}
+            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-white"
           >
-            <div className="flex justify-between items-center h-16">
-              <div className="flex items-center space-x-8">
-                <Link to={'/'}>
-                  <img
-                    src={
-                      isInHeroSection ? '/ulo-icon-alt.png' : '/ulo-icon.png'
-                    }
-                    alt="Logo of Ulo"
-                    className="h-10 hover:scale-110 transition-all duration-500"
-                  />
-                </Link>
-              </div>
-              <nav className="hidden md:flex space-x-8 items-center ">
-                <Button
-                  variant="ghost"
-                  className={`text-sm cursor-pointer transition-colors duration-500 ${
-                    isInHeroSection
-                      ? 'text-white hover:text-white/70 hover:bg-white/10'
-                      : 'text-black hover:text-black/70 hover:bg-black/10'
-                  }`}
-                  onClick={() => handleNavClick('business-section')}
-                >
-                  Solutions
-                </Button>
+            <HiMiniBars3BottomLeft className="w-6 h-6" />
+          </button>
+        </div>
 
-                <Button
-                  variant="ghost"
-                  className={`text-sm cursor-pointer transition-colors duration-500 ${
-                    isInHeroSection
-                      ? 'text-white hover:text-white/70 hover:bg-white/10'
-                      : 'text-black hover:text-black/70 hover:bg-black/10'
-                  }`}
-                  onClick={() => handleNavClick('services-section')}
-                >
-                  Products
-                </Button>
-
-                <Button
-                  variant="ghost"
-                  className={`text-sm cursor-pointer transition-colors duration-500 ${
-                    isInHeroSection
-                      ? 'text-white hover:text-white/70 hover:bg-white/10'
-                      : 'text-black hover:text-black/70 hover:bg-black/10'
-                  }`}
-                  onClick={() => handleNavClick('how-to-join-section')}
-                >
-                  Community
-                </Button>
-              </nav>
-              <div className="flex items-center space-x-4">
-                <Button
-                  variant="outline"
-                  className={`text-sm px-6 border-none transition-all duration-500 ease-in-out ${
-                    isInHeroSection
-                      ? 'bg-white text-black hover:bg-white/90 hover:text-black'
-                      : 'bg-primary text-white hover:bg-primary/90 hover:text-white'
-                  }`}
-                  onClick={() => handleNavClick('how-to-join-section')}
-                >
-                  Experience Ulô
-                </Button>
-              </div>
-            </div>
+        {/* Desktop Navigation */}
+        <div className="hidden lg:flex lg:gap-x-12">
+          <div className="hidden md:flex items-center space-x-16 px-12 py-4 rounded-full text-white bg-white/10 border border-white/40 backdrop-blur-md">
+            <Link to="/pricing">Products</Link>
+            <Link to="/pricing">Services</Link>
+            <Link to="/pricing">Community</Link>
           </div>
         </div>
 
-        {/* Mobile Navbar */}
-        <div className="md:hidden mx-auto max-w-6xl">
-          <div
-            style={{
-              backgroundColor: isInHeroSection
-                ? `rgba(255, 255, 255, 0.95)`
-                : `rgba(14, 8, 18, 0.13)`,
-              borderColor: isInHeroSection
-                ? `rgba(0, 0, 0, 0.1)`
-                : `rgba(147, 96, 147, 0.2)`,
-              boxShadow: isInHeroSection
-                ? `0 25px 50px -12px rgba(0, 0, 0, 0.1)`
-                : `0 25px 50px -12px rgba(6, 3, 9, 0.6)`
-            }}
-            className="rounded-2xl backdrop-blur-xl transition-all duration-500 border py-3 px-6"
+        {/* Desktop CTA */}
+        <div className="hidden lg:flex lg:flex-1 items-center lg:justify-end">
+          <button
+            onClick={scrollToJoinSection}
+            className="group inline-flex items-center rounded-full border border-white px-3 py-3 transition duration-300"
           >
-            <div className="flex justify-between items-center h-12">
-              <Link to={'/'}>
-                <img
-                  src={isInHeroSection ? '/ulo-icon.png' : '/ulo-icon-alt.png'}
-                  alt="Ulo"
-                  className="h-6 transition-all duration-500"
-                />
-              </Link>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={toggleMobileMenu}
-                className={`transition-colors duration-500 ${
-                  isInHeroSection
-                    ? 'text-primary hover:bg-white/10'
-                    : 'text-black hover:bg-black/10'
-                }`}
-              >
-                <Menu className="h-6 w-6" />
-              </Button>
-            </div>
-          </div>
+            <span className="text-white font-light pl-2">
+              Experience Ulô
+            </span>
+            <span className="ml-4 flex h-8 w-8 items-center justify-center rounded-full text-white transition-all duration-300 group-hover:-translate-x-2">
+              <ArrowRightIcon className="h-4 w-4" />
+            </span>
+          </button>
         </div>
-      </header>
 
-      {/* Mobile Menu Sidebar */}
-      {isMobileMenuOpen && (
-        <div
-          ref={mobileMenuRef}
-          className="fixed top-0 right-0 h-full w-80 z-[101] transform translate-x-full"
-          style={{
-            backgroundColor: isInHeroSection
-              ? `rgba(255, 255, 255, 0.95)`
-              : `rgba(14, 8, 18, 0.13)`,
-            borderColor: isInHeroSection
-              ? `rgba(0, 0, 0, 0.1)`
-              : `rgba(147, 96, 147, 0.2)`,
-            boxShadow: isInHeroSection
-              ? `0 25px 50px -12px rgba(0, 0, 0, 0.1)`
-              : `0 25px 50px -12px rgba(6, 3, 9, 0.6)`
-          }}
+        {/* Mobile Menu */}
+        <Dialog
+          open={mobileMenuOpen}
+          onClose={() => setMobileMenuOpen(false)}
+          className="lg:hidden"
         >
-          <div
-            className={`backdrop-blur-xl h-full p-6 ${
-              isInHeroSection
-                ? 'border-l border-black/20'
-                : 'border-l border-white/20'
-            }`}
-          >
-            <div className="flex justify-between items-center mb-8">
-              <Link to={'/'}>
+          <div className="fixed inset-0 z-50 bg-black/50" />
+          <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white p-6 sm:max-w-sm">
+            <div className="flex items-center justify-between">
+              <Link to="/" onClick={() => setMobileMenuOpen(false)}>
                 <img
-                  src={isInHeroSection ? '/ulo-icon.png' : '/ulo-icon-alt.png'}
-                  alt="Logo of Ulo"
-                  className="h-10 transition-all duration-500"
+                  src="/ulo-logo.png"
+                  alt="logo"
+                  className="w-[60px]"
                 />
               </Link>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={toggleMobileMenu}
-                className={`transition-colors duration-500 ${
-                  isInHeroSection
-                    ? 'text-primary hover:bg-white/10'
-                    : 'text-black hover:bg-black/10'
-                }`}
-              >
-                <X className="h-8 w-8" />
-              </Button>
-            </div>
 
-            <nav className="space-y-6">
               <button
-                onClick={() => handleNavClick('business-section')}
-                className={`block text-lg font-bold transition-colors text-left w-full text-primary hover:text-white `}
+                type="button"
+                onClick={() => setMobileMenuOpen(false)}
+                className="-m-2.5 rounded-md p-2.5 text-gray-700"
               >
-                Solutions
+                <XMarkIcon className="w-6 h-6" />
               </button>
+            </div>
 
-              <button
-                onClick={() => handleNavClick('services-section')}
-                className={`block text-lg font-bold transition-colors text-left w-full text-primary hover:text-white `}
+            <div className="mt-6 space-y-6 py-6">
+              <Link
+                to="/pricing"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block text-gray-900 font-medium"
               >
                 Products
-              </button>
+              </Link>
 
-              <button
-                onClick={() => handleNavClick('how-to-join-section')}
-                className={`block text-lg font-bold transition-colors text-left w-full text-primary hover:text-white `}
+              <Link
+                to="/pricing"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block text-gray-900 font-medium"
+              >
+                Services
+              </Link>
+
+              <Link
+                to="/pricing"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block text-gray-900 font-medium"
               >
                 Community
-              </button>
-            </nav>
+              </Link>
 
-            
-          </div>
-          
-        </div>
-      )}
-    </>
-  )
+            </div>
+
+            {/* Auth CTA */}
+            <div className="py-6 space-y-4">
+              <button
+                onClick={scrollToJoinSection}
+                className="group inline-flex w-full justify-center items-center rounded-full border-[#060809] border px-3 py-3 transition duration-300"
+              >
+                <span className="text-[#060809] font-light pl-2">
+                  Experience Ulô
+                </span>
+                <span className="ml-4 flex h-8 w-8 items-center justify-center rounded-full text-[#060809] transition-all duration-300 group-hover:-translate-y-1">
+                  <ArrowRightIcon className="h-4 w-4" />
+                </span>
+              </button>
+            </div>
+          </DialogPanel>
+        </Dialog>
+      </nav>
+    </header>
+  );
 }
-export default Header;
