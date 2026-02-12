@@ -330,15 +330,9 @@ const Header: React.FC<HeaderProps> = ({ howToJoinSectionRef }) => {
               </button>
             </nav>
 
-            <div className="mt-8 space-y-4">
-              <Button
-                onClick={() => handleNavClick('how-to-join-section')}
-                className={`block text-lg transition-colors text-center w-full text-white  hover:text-white bg-primary  `}
-              >
-                Experience Ulô
-              </Button>
-            </div>
+            
           </div>
+          
         </div>
       )}
     </>
