@@ -62,6 +62,7 @@ const Index = () => {
             ]}
             sectionId="xperience-section"
             bottomFade={true}
+            backgroundClassName="bg-gray-50"
           />
 
 
@@ -73,7 +74,7 @@ const Index = () => {
           title2="Seamless Journeys, Simple Payments"
           subtitle2="Ulô Cowries enables you to focus stays on the adventure, not the transaction."
           video2="/cowries-wallet.png"
-          media2ClassName="w-full lg:w-[650px] max-h-[320px] md:max-h-[520px] object-contain"
+          media2ClassName="w-full lg:w-[550px] max-h-[320px] md:max-h-[520px] object-contain"
           listItems={[
             "Convert with USD valuation—1 ACW = 1 USD.",
             "Share Cowries easily with family & friends.",

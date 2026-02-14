@@ -85,7 +85,7 @@ export default function Navbar({ howToJoinSectionRef }: NavbarProps) {
             </button>
 
             <button
-              onClick={() => scrollToSection("borderless-section-1")}
+              onClick={() => scrollToJoinSection()}
               className="hover:opacity-70 transition"
             >
               Community
@@ -154,7 +154,7 @@ export default function Navbar({ howToJoinSectionRef }: NavbarProps) {
               </button>
 
               <button
-                onClick={() => scrollToSection("borderless-section-1")}
+                onClick={() => scrollToJoinSection()}
                 className="block w-full text-left text-gray-900 font-medium"
               >
                 Community
