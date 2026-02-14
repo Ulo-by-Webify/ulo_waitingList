@@ -78,7 +78,7 @@ export default function Navbar({ howToJoinSectionRef }: NavbarProps) {
             </button>
 
             <button
-              onClick={() => scrollToSection("xperience-section-1")}
+              onClick={() => scrollToSection("services-section")}
               className="hover:opacity-70 transition"
             >
               Services
@@ -147,7 +147,7 @@ export default function Navbar({ howToJoinSectionRef }: NavbarProps) {
               </button>
 
               <button
-                onClick={() => scrollToSection("xperience-section-1")}
+                onClick={() => scrollToSection("services-section")}
                 className="block w-full text-left text-gray-900 font-medium"
               >
                 Services

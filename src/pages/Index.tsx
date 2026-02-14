@@ -97,6 +97,7 @@ const Index = () => {
             " Get reliable 24/7 professional support.",
           ]}
           sectionId="associates-section"
+          backgroundClassName="bg-gray-50"
         />
 
         <VideoContentSection
@@ -119,7 +120,7 @@ const Index = () => {
         <VideoContentSection
             title1="Triplink"
             subtitle1="Turn every group trip into a seamless, shared experience. Plan together, manage logistics, and capture memories."
-            video1="/icons/triplink.png"
+            video1="/icons/triplinkicon.png"
             media1WrapperClassName="relative overflow-hidden"
             media1ClassName="w-full lg:w-[450px] h-[450px] object-cover object-top mx-auto"
             title2="Create good memories together"
@@ -132,9 +133,10 @@ const Index = () => {
               "Save and share itineraries and memories.",
             ]}
             sectionId="triplink-section"
+            backgroundClassName="bg-gray-50"
           />
 
-        <ServicesCarousel />
+        <ServicesCarousel sectionId="services-section" />
 
         <ExperienceSection ref={experienceRef} />
 

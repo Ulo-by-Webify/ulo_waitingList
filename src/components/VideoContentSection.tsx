@@ -11,6 +11,7 @@ interface VideoContentSectionProps {
   video2?: string
   listItems?: string[] // Optional array of list items
   sectionId?: string
+  backgroundClassName?: string;
   className?: string
   isLooped?: boolean
 
@@ -32,6 +33,7 @@ const VideoContentSection: React.FC<VideoContentSectionProps> = ({
   isLooped = true,
   sectionId = 'video-content-section',
   className = '',
+  backgroundClassName = 'bg-white', //default background
   media1ClassName = 'w-full max-w-[430px] max-h-[520px] object-contain',
   media2ClassName = 'w-full max-h-[520px] object-contain',
   media1WrapperClassName = '',
@@ -74,7 +76,7 @@ const VideoContentSection: React.FC<VideoContentSectionProps> = ({
       {/* First Section */}
       <section
         id={`${sectionId}-1`}
-        className={`pt-20 px-4 sm:px-6 lg:px-8 min-h-min bg-white ${className}`}
+        className={`pt-28 px-4 sm:px-6 lg:px-8 min-h-min ${backgroundClassName} ${className}`}
       >
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
           {/* Left: Text Content */}
@@ -140,7 +142,7 @@ const VideoContentSection: React.FC<VideoContentSectionProps> = ({
       {video2 && (
         <section
           id={`${sectionId}-2`}
-          className="py-12 md:py-24 px-4 sm:px-6 lg:px-12"
+          className={`pt-12 md:pt-24 px-4 sm:px-6 lg:px-12 ${backgroundClassName} ${className}`}
         >
           <div className="max-w-3xl mx-auto text-center mb-5">
             <h3 className="text-3xl font-semibold text-primary mb-3">{title2}</h3>

@@ -79,7 +79,7 @@ const ExperienceSection = forwardRef<HowToJoinSectionRef>((_, ref) => {
 
         <ExperienceCard
           icon="/icons/service-icon.png"
-          title="Associate"
+          title="Service"
           isActive={selectedType === "associate"}
           highlight={highlight}
           onClick={() => handleUserTypeClick("associate")}

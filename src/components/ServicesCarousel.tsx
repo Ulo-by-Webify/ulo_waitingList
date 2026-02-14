@@ -2,6 +2,10 @@
 import React from "react";
 import SectionHeader from "./SectionHeader";
 
+interface ServicesCarouselProps {
+  sectionId: string;
+}
+
 const services = [
   { label: "Airport pick-up", icon: "🚗" },
   { label: "Chefs", icon: "🍲" },
@@ -9,9 +13,9 @@ const services = [
   { label: "African yoga", icon: "🧘🏾" },
 ];
 
-const ServicesCarousel: React.FC = () => {
+const ServicesCarousel: React.FC<ServicesCarouselProps> = ({ sectionId }) => {
   return (
-    <section className="pt-40 pb-40">
+    <section className="pt-40 pb-44" id={sectionId}>
       <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
         {/* Left: Services */}
         <div className="flex items-center justify-center gap-10 relative">

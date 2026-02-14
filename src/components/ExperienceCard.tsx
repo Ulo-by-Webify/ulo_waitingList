@@ -44,12 +44,12 @@ const ExperienceCard: React.FC<ExperienceCardProps> = ({
       />
 
       {/* Icon */}
-      <div className="mb-6">
+      <div className="mb-20">
         {isImage ? (
           <img
             src={icon}
             alt={title}
-            className="w-12 h-12 object-contain"
+            className="w-16 h-16 object-contain"
           />
         ) : (
           <span className="text-4xl">{icon}</span>

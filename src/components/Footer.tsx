@@ -38,18 +38,18 @@ const Footer: React.FC = () => {
   ]
 
   return (
-    <footer className="bg-white border-t border-gray-200 py-12">
+    <footer className="bg-white border-t border-gray-200 py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid  justify-center">
           <div className="">
-            <h3 className="text-4xl lg:text-5xl text-center font-bold text-gray-900 mb-3">
+            <h3 className="text-4xl lg:text-5xl text-center font-bold text-gray-900 mb-3 pt-16">
               Now you can belong <br />anywhere in Africa.
             </h3>
             <p className="text-xl text-center text-gray-600">
-              Experience African from Inside.
+              Experience Africa from Inside.
             </p>
             <img src="/ulo-icon.png" alt="Ulo" className="h-20 mx-auto mt-20" />
-            <p className="text-sm mt-20 text-center  text-gray-600">
+            <p className="text-sm mt-20 text-center  text-gray-600 pb-16">
               Prices and services may differ depending on location.
             </p>
           </div>
