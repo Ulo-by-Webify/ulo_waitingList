@@ -49,7 +49,7 @@ const ScrollDotsSection: React.FC = () => {
   return (
     <div className="pb-10 md:pb-20">
       <div className="text-center mb-20">
-        <h1 className="text-6xl font-semibold text-primary mb-3">Introducing Ulô</h1>
+        <h1 className="text-4xl lg:text-6xl font-semibold text-primary mb-3">Introducing Ulô</h1>
         <p className="text-primary/60 max-w-sm mx-auto text-2xl ">Connecting you to Africa.</p>
       </div>
       <div
