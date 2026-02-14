@@ -49,7 +49,7 @@ const Footer: React.FC = () => {
               Experience African from Inside.
             </p>
             <img src="/ulo-icon.png" alt="Ulo" className="h-20 mx-auto mt-20" />
-            <p className="text-lg mt-10 text-center  text-gray-600">
+            <p className="text-sm mt-20 text-center  text-gray-600">
               Prices and services may differ depending on location.
             </p>
           </div>
