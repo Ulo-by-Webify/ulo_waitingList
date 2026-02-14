@@ -34,8 +34,8 @@ const Index = () => {
             media1ClassName="w-[300px] md:w-[500px] object-contain mx-auto"
             title2="Focus on what matters most"
             subtitle2="From messages to check-ins, calendars to care, we take care of everything for you."
-            video2="/videos/Hands‑Free-Management/1.webm"
-            media2ClassName="ml-7 md:ml-14 w-full max-h-[320px] md:max-h-[520px] object-contain"
+            video2="/videos/new/HANNDSFREE-MANAGEMENT.mp4"
+            media2ClassName="w-full max-h-[320px] md:max-h-[520px] object-contain"
             listItems={[
               "Human-managed bookings and updates.",
               "24/7 guest support from trained professionals.",
@@ -53,8 +53,8 @@ const Index = () => {
             media1ClassName="w-full lg:w-[550px] h-[650px] object-cover object-top mx-auto"
             title2="See the soul of every stay"
             subtitle2="Your journey is richer when every experience and special moment is captured."
-            video2="/videos/XPERIENCE-GALLERY-1.mp4"
-            media2ClassName="ml-7 md:ml-14 w-full max-h-[320px] md:max-h-[520px] object-contain"
+            video2="/videos/new/XPERIENCE-GALLERY.mp4"
+            media2ClassName="w-full max-h-[320px] md:max-h-[520px] object-contain"
             listItems={[
               "Create your own city experience album.",
               "See past guest experiences before booking.",
@@ -108,8 +108,8 @@ const Index = () => {
           media1ClassName="w-[300px] md:w-[500px] object-contain mx-auto"
           title2="Navigate the city like a local"
           subtitle2="Get insider tips and local know-how to explore every corner with confidence."
-          video2="/videos/HANDBOOK.mp4"
-          media2ClassName="ml-7 md:ml-14 w-full max-h-[320px] md:max-h-[520px] object-contain"
+          video2="/guest-navbook.png"
+          media2ClassName="w-full max-h-[320px] md:max-h-[520px] object-contain"
           listItems={[
             "Know where to eat, shop, and explore safely.",
             "Access hidden spots and authentic cultural experiences.",
@@ -126,8 +126,8 @@ const Index = () => {
             media1ClassName="w-full lg:w-[450px] h-[450px] object-cover object-top mx-auto"
             title2="Create good memories together"
             subtitle2="Turn every trip into shared stories, laughter, and moments you’ll never forget."
-            video2="/videos/ULÔ-ASSOCIATE.mp4"
-            media2ClassName="ml-7 md:ml-14 w-full max-h-[320px] md:max-h-[520px] object-contain"
+            video2="/videos/new/TRIPLINK.mp4"
+            media2ClassName="w-full max-h-[320px] md:max-h-[520px] object-contain"
             listItems={[
               "Invite friends, manage plans, stay in sync.",
               "Pool funds and track payments easily.",

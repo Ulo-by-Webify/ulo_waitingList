@@ -117,7 +117,7 @@ const VideoShowcaseSection: React.FC<VideoShowcaseSectionProps> = ({
             <>
               <video
                 className="w-full h-full object-cover"
-                src="/videos//ULÔ_SHORT_FILM.mp4"
+                src="/videos/new/THUMBNAIL.mp4"
                 autoPlay
                 muted
                 loop
