@@ -151,6 +151,7 @@ const HowToJoinSection = forwardRef<HowToJoinSectionRef>((props, ref) => {
         onClose={closeModal}
         userType={selectedUserType}
       />
+      
     </section>
   );
 });

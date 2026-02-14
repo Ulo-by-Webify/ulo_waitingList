@@ -42,9 +42,15 @@ const Footer: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid  justify-center">
           <div className="">
-            <img src="/ulo-logo.png" alt="Ulo" className="h-20 mx-auto" />
-            <p className="text-sm text-center  text-gray-600 max-w-[250px] capitalize">
-              Connecting the world to africa
+            <h3 className="text-4xl lg:text-5xl text-center font-bold text-gray-900 mb-3">
+              Now you can belong <br />anywhere in Africa.
+            </h3>
+            <p className="text-xl text-center text-gray-600">
+              Experience African from Inside.
+            </p>
+            <img src="/ulo-icon.png" alt="Ulo" className="h-20 mx-auto mt-20" />
+            <p className="text-lg mt-10 text-center  text-gray-600">
+              Prices and services may differ depending on location.
             </p>
           </div>
           {/* {footerSections.map((section, index) => (

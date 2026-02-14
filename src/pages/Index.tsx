@@ -3,25 +3,22 @@ import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import VideoShowcaseSection from "@/components/VideoShowcaseSection";
 import VideoContentSection from "@/components/VideoContentSection";
-import HowToJoinSection, {
-  HowToJoinSectionRef,
-} from "@/components/HowToJoinSection";
-import FAQSection from "@/components/FAQSection";
 import Footer from "@/components/Footer";
 import ScrollDotsSection from "@/components/ScrollDotsSection";
-import AncillaryServicesShowcase from "@/components/AncillaryServicesShowcase";
-import { heroContent, businessSlides, flippedSlides } from "@/data";
+import { heroContent } from "@/data";
 import { useIsMobile } from "@/hooks/use-mobile";
 import ServicesCarousel from "@/components/ServicesCarousel";
-import ExperienceSection from "@/components/ExperienceSection";
+import ExperienceSection, { HowToJoinSectionRef } from "@/components/ExperienceSection";
 
 const Index = () => {
+
+  const experienceRef = useRef<HowToJoinSectionRef>(null);
+
   const isMobile = useIsMobile();
   console.log(isMobile);
-  const howToJoinSectionRef = useRef<HowToJoinSectionRef>(null);
   return (
     <div className="min-h-screen bg-white">
-      <Header howToJoinSectionRef={howToJoinSectionRef} />
+      <Header howToJoinSectionRef={experienceRef} />
 
       <div className="">
         <HeroSection heroContent={heroContent} />
@@ -139,9 +136,7 @@ const Index = () => {
 
         <ServicesCarousel />
 
-        <ExperienceSection />
-
-        <HowToJoinSection ref={howToJoinSectionRef} />
+        <ExperienceSection ref={experienceRef} />
 
         <Footer />
       </div>

@@ -3,7 +3,7 @@ import { useState, useRef, RefObject } from "react";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { ArrowRightIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { HiMiniBars3BottomLeft } from "react-icons/hi2";
-import { HowToJoinSectionRef } from "@/components/HowToJoinSection";
+import { HowToJoinSectionRef } from "@/components/ExperienceSection";
 
 interface NavbarProps {
   howToJoinSectionRef: RefObject<HowToJoinSectionRef>;
@@ -38,6 +38,8 @@ export default function Navbar({ howToJoinSectionRef }: NavbarProps) {
     setMobileMenuOpen(false);
   };
 
+  const experienceRef = useRef<HowToJoinSectionRef>(null);
+  
   return (
     <header className="absolute inset-x-0 top-0 z-50">
       <nav className="flex items-center justify-between p-10 lg:px-12">
