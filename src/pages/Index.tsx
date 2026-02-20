@@ -34,9 +34,9 @@ const Index = () => {
             video1="/icons/MAP.png"
             media1ClassName="w-[300px] md:w-[500px] object-contain mx-auto"
             listItems={[
-              "Human-managed bookings and updates.",
-              "24/7 guest support from trained professionals.",
-              "Seamless check-in, check-out and cleaning.",
+              "Professionally prepared homes, ready before you arrive.",
+              "Dedicated remote support from certified Ulô Associates.",
+              "Seamless stays from booking to check-out.",
             ]}
             sectionId="explore-section"
             backgroundClassName="bg-gray-50"

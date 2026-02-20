@@ -81,7 +81,7 @@ const VideoContentSection: React.FC<VideoContentSectionProps> = ({
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
           {/* Left: Text Content */}
           <div className="text-left">
-            <h2 className="text-6xl text-primary font-semibold mb-4 tracking-tight max-w-3">
+            <h2 className="text-6xl text-primary font-semibold mb-4 tracking-tight max-w-sm">
               {title1}
             </h2>
             <p className="text-xl text-primary/60 max-w-lg">{subtitle1}</p>
