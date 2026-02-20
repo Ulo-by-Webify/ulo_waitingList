@@ -102,7 +102,7 @@ const Index = () => {
           title2="Seamless Journeys, Simple Payments"
           subtitle2="Ulô Cowries enables you to focus stays on the adventure, not the transaction."
           video2="/cowries-wallet.png"
-          media2ClassName="w-full lg:w-[550px] max-h-[320px] md:max-h-[520px] object-contain"
+          media2ClassName="w-full lg:w-[550px] max-h-[320px] md:max-h-[520px] object-contain mb-10"
           listItems={[
             "Convert with USD valuation—1 ACW = 1 USD.",
             "Share Cowries easily with family & friends.",
@@ -113,7 +113,11 @@ const Index = () => {
         />
 
         <VideoContentSection
-          title1="Ulô Associates"
+          title1={
+            <>
+            Ulô <br />Associates
+            </>
+          }
           subtitle1="A trained and certified professional dedicated to ensuring your stay is prepared, seamless, and fully supported—from arrival to checkout."
           video1="/icons/ulo-associates.png"
           media1ClassName="w-[300px] md:w-[500px] object-contain mx-auto"

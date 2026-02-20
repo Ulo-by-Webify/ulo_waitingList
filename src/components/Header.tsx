@@ -71,7 +71,7 @@ export default function Navbar({ howToJoinSectionRef }: NavbarProps) {
           <div className="hidden md:flex items-center space-x-16 px-12 py-4 rounded-full text-white bg-white/10 border border-white/40 backdrop-blur-md">
 
             <button
-              onClick={() => scrollToSection("handsfree-section-1")}
+              onClick={() => scrollToSection("explore-section-1")}
               className="hover:opacity-70 transition"
             >
               Products
@@ -140,7 +140,7 @@ export default function Navbar({ howToJoinSectionRef }: NavbarProps) {
             <div className="mt-6 space-y-6 py-6">
 
               <button
-                onClick={() => scrollToSection("handsfree-section-1")}
+                onClick={() => scrollToSection("explore-section-1")}
                 className="block w-full text-left text-gray-900 font-medium"
               >
                 Products
