@@ -122,7 +122,7 @@ const VideoShowcaseSection: React.FC<VideoShowcaseSectionProps> = ({
                 muted
                 loop
                 playsInline
-                poster="/video-placeholder.jpg"
+                poster="/thumbnail.jpg"
               />
               {/* Pulsing Play Button */}
               <button

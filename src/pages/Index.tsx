@@ -9,6 +9,7 @@ import { heroContent } from "@/data";
 import { useIsMobile } from "@/hooks/use-mobile";
 import ServicesCarousel from "@/components/ServicesCarousel";
 import ExperienceSection, { HowToJoinSectionRef } from "@/components/ExperienceSection";
+import ExploreSection from "@/components/ExploreSection";
 
 const Index = () => {
 
@@ -28,13 +29,30 @@ const Index = () => {
         <ScrollDotsSection />
 
           <VideoContentSection
+            title1="Find Your Stay"
+            subtitle1="Discover curated homes across Africa-professionally prepared, thoughtfully managed, and ready for your next journey."
+            video1="/icons/MAP.png"
+            media1ClassName="w-[300px] md:w-[500px] object-contain mx-auto"
+            listItems={[
+              "Human-managed bookings and updates.",
+              "24/7 guest support from trained professionals.",
+              "Seamless check-in, check-out and cleaning.",
+            ]}
+            sectionId="explore-section"
+            backgroundClassName="bg-gray-50"
+          />
+
+          <ExploreSection />
+
+
+          <VideoContentSection
             title1="Hands‑Free Management"
             subtitle1="From bookings and cleaning to check-outs, Ulô takes care of every detail—so you earn effortlessly while we manage everything."
             video1="/icons/hands-free.png"
             media1ClassName="w-[300px] md:w-[500px] object-contain mx-auto"
             title2="Focus on what matters most"
             subtitle2="From messages to check-ins, calendars to care, we take care of everything for you."
-            video2="/videos/new/HANNDSFREE-MANAGEMENT.mp4"
+            video2="/videos/new/TOUR-FULL.mp4"
             media2ClassName="w-full max-h-[320px] md:max-h-[520px] object-contain"
             listItems={[
               "Human-managed bookings and updates.",
@@ -53,7 +71,7 @@ const Index = () => {
             media1ClassName="w-full lg:w-[550px] h-[650px] object-cover object-top mx-auto"
             title2="See the soul of every stay"
             subtitle2="Your journey is richer when every experience and special moment is captured."
-            video2="/videos/new/XPERIENCE-GALLERY.mp4"
+            video2="/videos/new/XPE-DEMO-FULL.mp4"
             media2ClassName="w-full max-h-[320px] md:max-h-[520px] object-contain"
             listItems={[
               "Create your own city experience album.",
@@ -62,7 +80,6 @@ const Index = () => {
             ]}
             sectionId="xperience-section"
             bottomFade={true}
-            backgroundClassName="bg-gray-50"
           />
 
 
@@ -81,6 +98,7 @@ const Index = () => {
             "Withdraw in any African currency with ease.",
           ]}
           sectionId="borderless-section"
+          backgroundClassName="bg-gray-50"
         />
 
         <VideoContentSection
@@ -98,7 +116,6 @@ const Index = () => {
             " Get reliable 24/7 professional support.",
           ]}
           sectionId="associates-section"
-          backgroundClassName="bg-gray-50"
         />
 
         <VideoContentSection
@@ -116,6 +133,7 @@ const Index = () => {
             "Access help when needed.",
           ]}
           sectionId="navbook-section"
+          backgroundClassName="bg-gray-50"
         />
 
         <VideoContentSection
@@ -134,7 +152,6 @@ const Index = () => {
               "Save and share itineraries and memories.",
             ]}
             sectionId="triplink-section"
-            backgroundClassName="bg-gray-50"
           />
 
         <ServicesCarousel sectionId="services-section" />
