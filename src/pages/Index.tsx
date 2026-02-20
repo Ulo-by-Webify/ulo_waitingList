@@ -52,7 +52,7 @@ const Index = () => {
             media1ClassName="w-[300px] md:w-[500px] object-contain mx-auto"
             title2="Focus on what matters most"
             subtitle2="From messages to check-ins, calendars to care, we take care of everything for you."
-            video2="/videos/new/TOUR-FULL.mp4"
+            video2="/videos/HANNDSFREE-MANAGEMENT.mp4"
             media2ClassName="w-full max-h-[320px] md:max-h-[520px] object-contain"
             listItems={[
               "Human-managed bookings and updates.",
@@ -71,7 +71,7 @@ const Index = () => {
             media1ClassName="w-full lg:w-[550px] h-[650px] object-cover object-top mx-auto"
             title2="See the soul of every stay"
             subtitle2="Your journey is richer when every experience and special moment is captured."
-            video2="/videos/new/XPE-DEMO-FULL.mp4"
+            video2="/videos/XPERIENCEGALLERY.mp4"
             media2ClassName="w-full max-h-[320px] md:max-h-[520px] object-contain"
             listItems={[
               "Create your own city experience album.",
@@ -85,7 +85,11 @@ const Index = () => {
 
         <VideoContentSection
           title1="Borderless Payment"
-          subtitle1="Ulô Cowries makes every transaction, from booking to last-minute extras, simple, seamless, and secure."
+          subtitle1={
+            <>
+            Ulô Cowries makes every transaction, <br />from booking to last-minute extras, simple, <br />seamless, and secure.
+            </>
+          }
           video1="/icons/coweries.png"
           media1ClassName="w-[300px] md:w-[500px] object-contain mx-auto"
           title2="Seamless Journeys, Simple Payments"
@@ -116,6 +120,7 @@ const Index = () => {
             " Get reliable 24/7 professional support.",
           ]}
           sectionId="associates-section"
+          backgroundClassName="bg-gray-50"
         />
 
         <VideoContentSection
@@ -126,7 +131,7 @@ const Index = () => {
           title2="Navigate the city like a local"
           subtitle2="Get insider tips and local know-how to explore every corner with confidence."
           video2="/guest-navbook.png"
-          media2ClassName="w-full max-h-[320px] md:max-h-[520px] object-contain"
+          media2ClassName="w-full max-h-[320px] md:max-h-[520px] object-contain mb-16"
           listItems={[
             "Know where to eat, shop, and explore safely.",
             "Access hidden spots and authentic cultural experiences.",
@@ -138,7 +143,11 @@ const Index = () => {
 
         <VideoContentSection
             title1="Triplink"
-            subtitle1="Turn every group trip into a seamless, shared experience. Plan together, manage logistics, and capture memories."
+            subtitle1={
+              <>
+              Turn every group trip into a seamless, <br />shared experience. Plan together, manage logistics, <br />and capture memories.
+              </>
+            }
             video1="/icons/triplinkicon.png"
             media1WrapperClassName="relative overflow-hidden"
             media1ClassName="w-full lg:w-[450px] h-[450px] object-cover object-top mx-auto"

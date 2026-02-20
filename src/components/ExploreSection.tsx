@@ -5,7 +5,7 @@ export default function ExploreSection() {
     <div className="bg-gray-50 min-h-screen py-20 px-6">
       <div className="max-w-6xl mx-auto text-center">
         {/* ---------------- HERO TEXT ---------------- */}
-        <h1 className="text-4xl md:text-5xl font-semibold text-neutral-900">
+        <h1 className="text-3xl font-semibold text-primary mb-3">
           Handpicked homes across Africa
         </h1>
         <p className="text-neutral-500 mt-4 text-lg">
@@ -103,7 +103,7 @@ export default function ExploreSection() {
         <div className="mt-20 grid md:grid-cols-3 gap-10">
           {/* Card 1 */}
           <CategoryCard
-            image="https://images.unsplash.com/photo-1599076312465-f235771c623d"
+            image="/Africanna.jpg"
             icon="/icons/africana-icon.svg"
             title="Africana"
             description="Rooted in heritage. Built with native materials and cultural design."
@@ -111,7 +111,7 @@ export default function ExploreSection() {
 
           {/* Card 2 */}
           <CategoryCard
-            image="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9"
+            image="/Urban.jpg"
             icon="/icons/urban-icon.svg"
             title="Urban"
             description="Modern city homes designed for comfort and convenience."
@@ -119,7 +119,7 @@ export default function ExploreSection() {
 
           {/* Card 3 */}
           <CategoryCard
-            image="https://images.unsplash.com/photo-1662568804386-df831feb6c0c"
+            image="/Eden.jpg"
             icon="/icons/eden-icon.svg"
             title="Eden"
             description="Nature-immersed retreats near forests, countryside, or the sea."
@@ -144,11 +144,11 @@ function CategoryCard({
   return (
     <div className="bg-white rounded-[28px] p-4 shadow-[0_10px_30px_rgba(0,0,0,0.08)] hover:shadow-[0_14px_40px_rgba(0,0,0,0.12)] transition-all duration-300">
       {/* Image Wrapper */}
-      <div className="relative rounded-2xl overflow-hidden">
+      <div className="relative rounded-2xl overflow-hidden aspect-square">
         <img
           src={image}
           alt={title}
-          className="w-full h-64 object-cover"
+          className="w-full h-full object-cover"
         />
 
         {/* SVG Icon Badge */}
@@ -163,7 +163,7 @@ function CategoryCard({
 
       {/* Content */}
       <div className="mt-6 px-2 pb-4 text-left">
-        <h3 className="text-xl font-semibold text-neutral-900">
+        <h3 className="text-3xl font-semibold text-primary mb-3">
           {title}
         </h3>
 

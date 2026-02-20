@@ -3,8 +3,8 @@ import React, { useRef, useEffect } from 'react'
 import { useMobileVideoPlayback } from '../hooks/useMobileVideoPlayback'
 
 interface VideoContentSectionProps {
-  title1: string
-  subtitle1: string
+  title1: React.ReactNode
+  subtitle1: React.ReactNode
   video1: string
   title2?: string
   subtitle2?: string
@@ -76,7 +76,7 @@ const VideoContentSection: React.FC<VideoContentSectionProps> = ({
       {/* First Section */}
       <section
         id={`${sectionId}-1`}
-        className={`pt-28 px-4 sm:px-6 lg:px-8 min-h-min ${backgroundClassName} ${className}`}
+        className={`pt-28 px-4 sm:px-6 lg:px-8 min-h-min mb-6 ${backgroundClassName} ${className}`}
       >
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
           {/* Left: Text Content */}
@@ -127,7 +127,7 @@ const VideoContentSection: React.FC<VideoContentSectionProps> = ({
                 Your browser does not support the video tag.
               </video>
             ) : video1.match(/\.(png|jpg|jpeg)$/i) ? (
-              <img src={video1} alt={title1} className={media1ClassName} />
+              <img src={video1} className={media1ClassName} />
             ) : null}
 
             {/* Optional bottom fade overlay */}

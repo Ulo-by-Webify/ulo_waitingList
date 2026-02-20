@@ -48,10 +48,10 @@ const Footer: React.FC = () => {
             <p className="text-xl text-center text-gray-600">
               Experience Africa from Inside.
             </p>
-            <img src="/ulo-icon.png" alt="Ulo" className="h-20 mx-auto mt-20" />
-            <p className="text-sm mt-20 text-center  text-gray-600 pb-16">
+            <img src="/ulo-icon.png" alt="Ulo" className="h-20 mx-auto mt-20 pb-4" />
+            {/* <p className="text-sm mt-20 text-center  text-gray-600 pb-16">
               Prices and services may differ depending on location.
-            </p>
+            </p> */}
           </div>
           {/* {footerSections.map((section, index) => (
             <div key={index}>

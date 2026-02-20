@@ -53,7 +53,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ heroContent }) => {
           direction="top"
           onAnimationComplete={handleAnimationComplete}
           className="text-[2.2rem] sm:text-6xl md:text-8xl text-white mb-3 tracking-tight font-bold leading-[0.9]"
-          bottomTextClassName="font-light"
+          bottomTextClassName="font-thin"
         />
         <p className="text-lg text-white mb-40 md:px-20 leading-relaxed animate-fade-in max-w-3xl mx-auto tracking-wide font-light">
           {heroContent.description}
