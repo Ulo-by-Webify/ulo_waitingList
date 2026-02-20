@@ -10,6 +10,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import ServicesCarousel from "@/components/ServicesCarousel";
 import ExperienceSection, { HowToJoinSectionRef } from "@/components/ExperienceSection";
 import ExploreSection from "@/components/ExploreSection";
+import ProductGallery from "@/components/ProductGallery";
 
 const Index = () => {
 
@@ -41,6 +42,8 @@ const Index = () => {
             sectionId="explore-section"
             backgroundClassName="bg-gray-50"
           />
+
+          <ProductGallery />
 
           <ExploreSection />
 

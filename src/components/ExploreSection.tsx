@@ -2,71 +2,9 @@ import { Heart, ChevronLeft, ChevronRight } from "lucide-react"
 
 export default function ExploreSection() {
   return (
-    <div className="bg-gray-50 min-h-screen py-20 px-6">
+    <div className="bg-gray-50 min-h-screen pb-20 px-6">
       <div className="max-w-6xl mx-auto text-center">
-        {/* ---------------- HERO TEXT ---------------- */}
-        <h1 className="text-3xl font-semibold text-primary mb-3">
-          Handpicked homes across Africa
-        </h1>
-        <p className="text-neutral-500 mt-4 text-lg">
-          Browse trusted homes, choose your style,<br />
-          and book with confidence.
-        </p>
-
-        {/* ---------------- CAROUSEL ---------------- */}
-        <div className="relative mt-14 flex items-center justify-center">
-          {/* Left Arrow */}
-          <button className="absolute -left-10 bg-white shadow-md w-10 h-10 rounded-full flex items-center justify-center">
-            <ChevronLeft size={20} />
-          </button>
-
-          {/* Side Card (Left Preview) */}
-          <div className="hidden md:block absolute -left-40 w-[420px] h-[260px] rounded-3xl overflow-hidden shadow-md opacity-70">
-            <img
-              src="https://images.unsplash.com/photo-1505691938895-1758d7feb511"
-              className="w-full h-full object-cover"
-            />
-          </div>
-
-          {/* Main Card */}
-          <div className="relative w-[650px] h-[380px] rounded-3xl overflow-hidden shadow-xl">
-            <img
-              src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750"
-              className="w-full h-full object-cover"
-            />
-
-            {/* Heart */}
-            <div className="absolute top-4 right-4 bg-white/70 backdrop-blur-md rounded-full p-2">
-              <Heart size={18} />
-            </div>
-
-            {/* Bottom Gradient */}
-            <div className="absolute bottom-0 left-0 w-full h-36 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-              <h3 className="text-white text-xl font-semibold">
-                Tranquil Hut Kigali
-              </h3>
-              <p className="text-white/80 text-sm">
-                A89 for 2 nights • ★ 3.5
-              </p>
-            </div>
-          </div>
-
-          {/* Side Card (Right Preview) */}
-          <div className="hidden md:block absolute -right-40 w-[420px] h-[260px] rounded-3xl overflow-hidden shadow-md opacity-70">
-            <img
-              src="https://images.unsplash.com/photo-1507089947368-19c1da9775ae"
-              className="w-full h-full object-cover"
-            />
-          </div>
-
-          {/* Right Arrow */}
-          <button className="absolute -right-10 bg-white shadow-md w-10 h-10 rounded-full flex items-center justify-center">
-            <ChevronRight size={20} />
-          </button>
-        </div>
-
-        {/* ---------------- WAYS TO STAY ---------------- */}
-        <div className="mt-24">
+        <div className="">
           <h2 className="text-3xl font-semibold text-neutral-900">
             Ways to Stay on Ulô
           </h2>
@@ -148,7 +86,7 @@ function CategoryCard({
         <img
           src={image}
           alt={title}
-          className="w-full h-full object-cover"
+          className="w-full h-64 object-cover"
         />
 
         {/* SVG Icon Badge */}
