@@ -1,4 +1,4 @@
-import { Heart, ChevronLeft, ChevronRight, Home, Building2, Trees } from "lucide-react"
+import { Heart, ChevronLeft, ChevronRight } from "lucide-react"
 
 export default function ExploreSection() {
   return (
@@ -103,24 +103,24 @@ export default function ExploreSection() {
         <div className="mt-20 grid md:grid-cols-3 gap-10">
           {/* Card 1 */}
           <CategoryCard
-            image="https://images.unsplash.com/photo-1600585154340-be6161a56a0c"
-            icon={<Home size={18} />}
+            image="https://images.unsplash.com/photo-1599076312465-f235771c623d"
+            icon="/icons/africana-icon.svg"
             title="Africana"
             description="Rooted in heritage. Built with native materials and cultural design."
           />
 
           {/* Card 2 */}
           <CategoryCard
-            image="https://images.unsplash.com/photo-1600607687120-6a3a08e24b09"
-            icon={<Building2 size={18} />}
+            image="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9"
+            icon="/icons/urban-icon.svg"
             title="Urban"
             description="Modern city homes designed for comfort and convenience."
           />
 
           {/* Card 3 */}
           <CategoryCard
-            image="https://images.unsplash.com/photo-1501785888041-af3ef285b470"
-            icon={<Trees size={18} />}
+            image="https://images.unsplash.com/photo-1662568804386-df831feb6c0c"
+            icon="/icons/eden-icon.svg"
             title="Eden"
             description="Nature-immersed retreats near forests, countryside, or the sea."
           />
@@ -137,25 +137,37 @@ function CategoryCard({
   description,
 }: {
   image: string
-  icon: React.ReactNode
+  icon: string
   title: string
   description: string
 }) {
   return (
-    <div className="bg-white rounded-3xl p-4 shadow-lg hover:shadow-xl transition">
+    <div className="bg-white rounded-[28px] p-4 shadow-[0_10px_30px_rgba(0,0,0,0.08)] hover:shadow-[0_14px_40px_rgba(0,0,0,0.12)] transition-all duration-300">
+      {/* Image Wrapper */}
       <div className="relative rounded-2xl overflow-hidden">
-        <img src={image} className="w-full h-64 object-cover" />
+        <img
+          src={image}
+          alt={title}
+          className="w-full h-64 object-cover"
+        />
 
-        <div className="absolute top-4 right-4 bg-white rounded-full p-2 shadow">
-          {icon}
+        {/* SVG Icon Badge */}
+        <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-[0_4px_12px_rgba(0,0,0,0.08)]">
+          <img
+            src={icon}
+            alt={`${title} icon`}
+            className="w-5 h-5 object-contain"
+          />
         </div>
       </div>
 
-      <div className="mt-6 text-left px-2 pb-4">
+      {/* Content */}
+      <div className="mt-6 px-2 pb-4 text-left">
         <h3 className="text-xl font-semibold text-neutral-900">
           {title}
         </h3>
-        <p className="text-neutral-500 text-sm mt-2">
+
+        <p className="text-neutral-500 text-sm mt-2 leading-relaxed">
           {description}
         </p>
 
