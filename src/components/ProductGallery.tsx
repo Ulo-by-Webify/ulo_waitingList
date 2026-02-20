@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight, Heart, Star } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Heart, Star, Tag } from 'lucide-react';
 
 // --- Mock Data for the Carousel ---
 const PROPERTIES = [
   {
     id: 1,
     title: "Tranquil Hut Kigali",
-    price: "A-89",
+    price: "89",
     nights: "2 nights",
     rating: 3.5,
     image: "https://images.unsplash.com/photo-1518780664697-55e3ad937233?q=80&w=2565&auto=format&fit=crop",
@@ -14,7 +14,7 @@ const PROPERTIES = [
   {
     id: 2,
     title: "Sahara Desert Villa",
-    price: "A-120",
+    price: "120",
     nights: "1 night",
     rating: 4.8,
     image: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=2670&auto=format&fit=crop",
@@ -22,7 +22,7 @@ const PROPERTIES = [
   {
     id: 3,
     title: "Cape Town Penthouse",
-    price: "A-250",
+    price: "250",
     nights: "3 nights",
     rating: 4.9,
     image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=2671&auto=format&fit=crop",
@@ -30,7 +30,7 @@ const PROPERTIES = [
   {
     id: 4,
     title: "Maasai Mara Lodge",
-    price: "A-150",
+    price: "150",
     nights: "2 nights",
     rating: 4.7,
     image: "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?q=80&w=2670&auto=format&fit=crop",
@@ -38,7 +38,7 @@ const PROPERTIES = [
   {
     id: 5,
     title: "Zanzibar Beach House",
-    price: "A-180",
+    price: "180",
     nights: "5 nights",
     rating: 4.6,
     image: "https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=2525&auto=format&fit=crop",
@@ -86,20 +86,19 @@ export default function App() {
       </div>
 
       {/* --- CAROUSEL SECTION --- */}
-      {/* Added perspective here for the 3D effect to work properly */}
       <div className="relative w-full max-w-[1600px] mx-auto h-[600px] flex items-center justify-center mb-24" style={{ perspective: '1000px' }}>
             
         {/* Navigation Arrows */}
         <button 
           onClick={handlePrev}
-          className="absolute left-4 md:left-10 z-50 bg-white shadow-lg hover:shadow-xl hover:scale-105 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 group border border-slate-100"
+          className="absolute left-4 md:left-40 z-50 bg-white shadow-lg hover:shadow-xl hover:scale-105 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 group border border-slate-100"
         >
           <ChevronLeft size={24} className="text-slate-700 group-hover:-translate-x-0.5 transition-transform" />
         </button>
 
         <button 
           onClick={handleNext}
-          className="absolute right-4 md:right-10 z-50 bg-white shadow-lg hover:shadow-xl hover:scale-105 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 group border border-slate-100"
+          className="absolute right-4 md:right-40 z-50 bg-white shadow-lg hover:shadow-xl hover:scale-105 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 group border border-slate-100"
         >
           <ChevronRight size={24} className="text-slate-700 group-hover:translate-x-0.5 transition-transform" />
         </button>
@@ -139,8 +138,14 @@ export default function App() {
               <h2 className="text-white text-3xl md:text-4xl font-bold mb-2 tracking-tight">
                 {currentProperty.title}
               </h2>
+              
+              {/* UPDATED PRICE SECTION WITH ICON */}
               <div className="flex items-center gap-3 text-white/90 text-lg">
-                <span className="font-medium">{currentProperty.price}</span>
+                <div className="flex items-center gap-1.5 font-medium">
+                  {/* Icon replacing the 'A' */}
+                  <img src="/icons/cowries-light.svg" alt="" /> 
+                  <span>{currentProperty.price}</span>
+                </div>
                 <span className="text-white/60">for {currentProperty.nights}</span>
                 <span className="mx-1 text-white/40">•</span>
                 <div className="flex items-center gap-1">
