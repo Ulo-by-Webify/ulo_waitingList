@@ -28,73 +28,86 @@ const services = [
 
 const ServicesCarousel: React.FC<ServicesCarouselProps> = ({ sectionId }) => {
   const [current, setCurrent] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
 
-  // Auto slide
+  const visibleSlides = 3;
+  const maxIndex = services.length - visibleSlides;
+
+  // Auto-slide (pauses on hover)
   useEffect(() => {
+    if (isHovered) return;
+
     const interval = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % services.length);
+      setCurrent((prev) =>
+        prev >= maxIndex ? 0 : prev + 1
+      );
     }, 3500);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [isHovered, maxIndex]);
 
   const nextSlide = () =>
-    setCurrent((prev) => (prev + 1) % services.length);
+    setCurrent((prev) =>
+      prev >= maxIndex ? 0 : prev + 1
+    );
 
   const prevSlide = () =>
     setCurrent((prev) =>
-      prev === 0 ? services.length - 1 : prev - 1
+      prev <= 0 ? maxIndex : prev - 1
     );
 
   return (
     <section className="pt-40 pb-44" id={sectionId}>
       <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
-
+        
         {/* LEFT SIDE - SLIDER */}
-        <div className="relative flex items-center justify-center">
-
-          {/* Slides */}
-          <div className="flex items-center justify-center gap-12 transition-all duration-500">
-            {[0, 1, 2].map((offset) => {
-              const index = (current + offset) % services.length;
-              const service = services[index];
-
-              return (
-                <div
-                  key={index}
-                  className="flex flex-col items-center text-center space-y-4"
-                >
-                  <img
-                    src={service.icon}
-                    alt={service.label}
-                    className="w-20 h-20 object-contain"
-                  />
-                  <span className="text-lg font-medium text-gray-800">
-                    {service.label}
-                  </span>
-                </div>
-              );
-            })}
+        <div
+          className="relative overflow-hidden"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          {/* Track */}
+          <div
+            className="flex transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
+            style={{
+              transform: `translateX(-${(100 / visibleSlides) * current}%)`,
+            }}
+          >
+            {services.map((service, index) => (
+              <div
+                key={index}
+                className="w-1/3 flex-shrink-0 flex flex-col items-center text-center space-y-4"
+              >
+                <img
+                  src={service.icon}
+                  alt={service.label}
+                  className="w-20 h-20 object-contain"
+                />
+                <span className="text-lg font-medium text-gray-800">
+                  {service.label}
+                </span>
+              </div>
+            ))}
           </div>
 
           {/* Arrows */}
           <button
             onClick={prevSlide}
-            className="absolute left-0 text-2xl px-3 py-1 hover:opacity-60"
+            className="absolute left-0 top-1/2 -translate-y-1/2 text-2xl px-3 py-1 hover:opacity-60"
           >
             ‹
           </button>
 
           <button
             onClick={nextSlide}
-            className="absolute right-0 text-2xl px-3 py-1 hover:opacity-60"
+            className="absolute right-0 top-1/2 -translate-y-1/2 text-2xl px-3 py-1 hover:opacity-60"
           >
             ›
           </button>
 
           {/* Dots */}
-          <div className="absolute -bottom-10 flex gap-3">
-            {services.map((_, index) => (
+          <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 flex gap-3">
+            {Array.from({ length: maxIndex + 1 }).map((_, index) => (
               <div
                 key={index}
                 onClick={() => setCurrent(index)}
