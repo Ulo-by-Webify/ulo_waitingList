@@ -30,7 +30,11 @@ const Index = () => {
         <ScrollDotsSection />
 
           <VideoContentSection
-            title1="Find Your Stay"
+            title1={
+              <>
+                Find <br />Your Stay
+              </>
+            }
             subtitle1="Discover curated homes across Africa-professionally prepared, thoughtfully managed, and ready for your next journey."
             video1="/icons/MAP.png"
             media1ClassName="w-[300px] md:w-[500px] object-contain mx-auto"
