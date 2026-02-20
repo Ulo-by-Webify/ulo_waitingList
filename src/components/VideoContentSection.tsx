@@ -76,7 +76,7 @@ const VideoContentSection: React.FC<VideoContentSectionProps> = ({
       {/* First Section */}
       <section
         id={`${sectionId}-1`}
-        className={`pt-28 px-4 sm:px-6 lg:px-8 min-h-min mb-6 ${backgroundClassName} ${className}`}
+        className={`pt-28 px-4 sm:px-6 lg:px-8 min-h-min ${backgroundClassName} ${className}`}
       >
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
           {/* Left: Text Content */}
