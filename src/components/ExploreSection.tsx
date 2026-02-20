@@ -86,7 +86,7 @@ function CategoryCard({
         <img
           src={image}
           alt={title}
-          className="w-full h-64 object-cover"
+          className="w-full h-full object-cover"
         />
 
         {/* SVG Icon Badge */}
