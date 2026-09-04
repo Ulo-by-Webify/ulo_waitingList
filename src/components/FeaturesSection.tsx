@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import { Users, TrendingUp, Shield } from 'lucide-react';
 

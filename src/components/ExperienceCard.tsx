@@ -1,3 +1,5 @@
+"use client";
+
 // src/components/ExperienceCard.tsx
 import React from "react";
 

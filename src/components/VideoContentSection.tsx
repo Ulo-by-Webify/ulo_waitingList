@@ -1,3 +1,5 @@
+"use client";
+
 import { Check } from 'lucide-react'
 import React, { useRef, useEffect } from 'react'
 import { useMobileVideoPlayback } from '../hooks/useMobileVideoPlayback'

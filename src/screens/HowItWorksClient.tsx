@@ -1,6 +1,9 @@
+"use client";
+
 import React, { useRef } from "react";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
+import NotAListingSection from "@/components/NotAListingSection";
 import VideoShowcaseSection from "@/components/VideoShowcaseSection";
 import VideoContentSection from "@/components/VideoContentSection";
 import Footer from "@/components/Footer";
@@ -12,7 +15,7 @@ import ExperienceSection, { HowToJoinSectionRef } from "@/components/ExperienceS
 import ExploreSection from "@/components/ExploreSection";
 import ProductGallery from "@/components/ProductGallery";
 
-const Index = () => {
+const HowItWorksClient = () => {
 
   const experienceRef = useRef<HowToJoinSectionRef>(null);
 
@@ -20,10 +23,12 @@ const Index = () => {
   console.log(isMobile);
   return (
     <div className="min-h-screen bg-white">
-      <Header howToJoinSectionRef={experienceRef} />
+      <Header />
 
       <div className="">
         <HeroSection heroContent={heroContent} />
+
+        <NotAListingSection />
 
         <VideoShowcaseSection heroContent={heroContent} />
 
@@ -186,4 +191,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default HowItWorksClient;

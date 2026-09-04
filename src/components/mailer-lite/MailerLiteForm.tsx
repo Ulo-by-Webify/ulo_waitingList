@@ -1,13 +1,17 @@
+"use client";
+
 import React, { useState, useRef, useEffect } from 'react'
 
 interface MailerLiteFormProps {
   formId?: string
   userType?: 'host' | 'guest' | 'associate'
+  onIframeLoad?: () => void
 }
 
 const MailerLiteForm: React.FC<MailerLiteFormProps> = ({
   formId,
-  userType = 'host'
+  userType = 'host',
+  onIframeLoad
 }) => {
   // Get the correct form ID based on user type
   // Form ID mapping:
@@ -92,6 +96,7 @@ const MailerLiteForm: React.FC<MailerLiteFormProps> = ({
     const handleLoad = () => {
       setIsFormLoading(false)
       setHasFormError(false)
+      onIframeLoad?.()
     }
 
     const handleError = () => {
@@ -119,7 +124,7 @@ const MailerLiteForm: React.FC<MailerLiteFormProps> = ({
       // Clean up blob URL
       URL.revokeObjectURL(src)
     }
-  }, [actualFormId, isFormLoading])
+  }, [actualFormId])
 
   // Reset loading state when formId changes
   useEffect(() => {

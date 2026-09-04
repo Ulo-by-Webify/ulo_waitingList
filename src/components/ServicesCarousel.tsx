@@ -1,15 +1,17 @@
+"use client";
+
 // src/components/ServicesCarousel.tsx
 import React, { useState, useEffect } from "react";
 import SectionHeader from "./SectionHeader";
 
-import airportIcon from "/service-icons/airport-pickup.png";
-import chefIcon from "/service-icons/chef.png";
-import laundryIcon from "/service-icons/laundry.png";
-import yogaIcon from "/service-icons/yoga.png";
-import hairStylistIcon from "/service-icons/hair-stylist.png";
-import boatCruiseIcon from "/service-icons/boat-cruise.png";
-import photographyIcon from "/service-icons/photography.png";
-import helicopterIcon from "/service-icons/helicopter.png";
+const airportIcon = "/service-icons/airport-pickup.png";
+const chefIcon = "/service-icons/chef.png";
+const laundryIcon = "/service-icons/laundry.png";
+const yogaIcon = "/service-icons/yoga.png";
+const hairStylistIcon = "/service-icons/hair-stylist.png";
+const boatCruiseIcon = "/service-icons/boat-cruise.png";
+const photographyIcon = "/service-icons/photography.png";
+const helicopterIcon = "/service-icons/helicopter.png";
 
 interface ServicesCarouselProps {
   sectionId: string;

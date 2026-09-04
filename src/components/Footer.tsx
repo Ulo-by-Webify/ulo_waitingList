@@ -1,81 +1,46 @@
+"use client";
+
 import React from 'react';
+import { FaFacebook, FaInstagram, FaXTwitter, FaReddit } from 'react-icons/fa6';
+
+const socialLinks = [
+  { icon: FaFacebook, href: '#', label: 'Facebook' },
+  { icon: FaInstagram, href: '#', label: 'Instagram' },
+  { icon: FaXTwitter, href: '#', label: 'X' },
+  { icon: FaReddit, href: '#', label: 'Reddit' }
+];
 
 const Footer: React.FC = () => {
-  const footerSections = [
-    {
-      title: 'Links',
-      links: [
-        { title: 'About', href: '#' },
-        { title: 'Products', href: '#' },
-        { title: 'Privacy', href: '#' },
-        { title: 'Terms', href: '#' }
-      ]
-    },
-    {
-      title: 'Business',
-      links: [
-        { title: 'Advertising', href: '#' },
-        { title: 'Solutions', href: '#' },
-        { title: 'How Search works', href: '#' }
-      ]
-    },
-    {
-      title: 'Developers',
-      links: [
-        { title: 'Ulo API', href: '#' },
-        { title: 'Ulo Cloud', href: '#' },
-        { title: 'Ulo Maps Platform', href: '#' }
-      ]
-    },
-    {
-      title: 'Help',
-      links: [
-        { title: 'Support', href: '#' },
-        { title: 'Contact', href: '#' },
-        { title: 'Community', href: '#' }
-      ]
-    }
-  ]
-
   return (
-    <footer className="bg-white border-t border-gray-200 py-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid  justify-center">
-          <div className="">
-            <h3 className="text-4xl lg:text-5xl text-center font-bold text-gray-900 mb-3 pt-16">
-              Now you can belong <br />anywhere in Africa.
-            </h3>
-            <p className="text-xl text-center text-gray-600">
-              Experience Africa from Inside.
-            </p>
-            <img src="/ulo-icon.png" alt="Ulo" className="h-20 mx-auto mt-20 pb-4" />
-            {/* <p className="text-sm mt-20 text-center  text-gray-600 pb-16">
-              Prices and services may differ depending on location.
-            </p> */}
+    <footer className="bg-[#F7F1E8]">
+      {/* Belonging statement */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 lg:pt-36 pb-10">
+        <h3 className="text-4xl lg:text-5xl text-center font-bold text-gray-900 mb-3">
+          Now you can belong <br />anywhere in Africa.
+        </h3>
+        <p className="text-xl text-center text-gray-600">
+          Experience Africa from Inside.
+        </p>
+        <img src="/ulo-icon.png" alt="Ulo" className="h-16 mx-auto mt-16 mb-10" />
+
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-gray-400 pt-8 text-sm text-gray-600">
+          <p>&copy; {new Date().getFullYear()} Ulo Africa LLC. All rights reserved.</p>
+          <div className="flex items-center gap-4">
+            {socialLinks.map(({ icon: Icon, href, label }) => (
+              <a
+                key={label}
+                href={href}
+                aria-label={label}
+                className="text-gray-900 hover:opacity-70 transition"
+              >
+                <Icon className="h-5 w-5" />
+              </a>
+            ))}
           </div>
-          {/* {footerSections.map((section, index) => (
-            <div key={index}>
-              <h4 className="font-medium text-gray-900 mb-4">
-                {section.title}
-              </h4>
-              <ul className="space-y-2 text-sm text-gray-600">
-                {section.links.map((link, linkIndex) => (
-                  <li key={linkIndex}>
-                    <a href={link.href} className="hover:text-gray-900">
-                      {link.title}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))} */}
-        </div>
-        <div className=" flex justify-center border-t border-gray-200 mt-8 pt-8 text-sm text-gray-600">
-          <p>&copy; {new Date().getFullYear()} Ulo LLC. All rights reserved.</p>
         </div>
       </div>
     </footer>
-  )
+  );
 };
 
 export default Footer;

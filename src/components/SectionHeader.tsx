@@ -1,3 +1,5 @@
+"use client";
+
 // src/components/SectionHeader.tsx
 import React from "react";
 

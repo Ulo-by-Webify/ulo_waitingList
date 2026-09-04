@@ -1,3 +1,5 @@
+"use client";
+
 import { motion, Transition } from 'framer-motion'
 import { useEffect, useRef, useState, useMemo, useLayoutEffect } from 'react'
 
@@ -205,7 +207,7 @@ const BlurText: React.FC<BlurTextProps> = ({
           {prefixElements.map((segment: string, index: number) => {
             const animateKeyframes = buildKeyframes(fromSnapshot, toSnapshots)
             const spanTransition: Transition = { duration: totalDuration, times, delay: (index * delay) / 1000 }
-            ;(spanTransition as never).ease = easing
+            ;(spanTransition as any).ease = easing
             return (
               <motion.span
                 key={`prefix-${index}`}
@@ -240,7 +242,7 @@ const BlurText: React.FC<BlurTextProps> = ({
             {suffixElements.map((segment: string, index: number) => {
               const animateKeyframes = buildKeyframes(fromSnapshot, toSnapshots)
               const spanTransition: Transition = { duration: totalDuration, times, delay: ((prefixElements.length + 1 + index) * delay) / 1000 }
-              ;(spanTransition as never).ease = easing
+              ;(spanTransition as any).ease = easing
               return (
                 <motion.span
                   key={`suffix-initial-${index}`}

@@ -1,7 +1,9 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Users, ExternalLinkIcon } from 'lucide-react'
 
-const ThankYou = () => {
+const ThankYouClient = () => {
   const handleSlackJoin = () => {
     // Replace with your actual Slack invite link
     window.open(
@@ -79,4 +81,4 @@ const ThankYou = () => {
   )
 }
 
-export default ThankYou;
+export default ThankYouClient;

@@ -1,55 +1,38 @@
-import { Link } from "react-router-dom";
-import { useState, useRef, RefObject } from "react";
-import { Dialog, DialogPanel } from "@headlessui/react";
-import { ArrowRightIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { HiMiniBars3BottomLeft } from "react-icons/hi2";
-import { HowToJoinSectionRef } from "@/components/ExperienceSection";
+"use client";
 
-interface NavbarProps {
-  howToJoinSectionRef: RefObject<HowToJoinSectionRef>;
+import Link from "next/link";
+import { useState } from "react";
+import { Dialog, DialogPanel } from "@headlessui/react";
+import { ArrowUpRightIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { HiMiniBars3BottomLeft } from "react-icons/hi2";
+
+const navLinks = [
+  { label: "Home", href: "/" },
+  { label: "Experiences", href: "/experiences" },
+  { label: "How Ulô Works", href: "/how-it-works" },
+  { label: "Journal", href: "/journal" },
+];
+
+interface HeaderProps {
+  overlay?: boolean;
+  theme?: "dark" | "light";
 }
 
-export default function Navbar({ howToJoinSectionRef }: NavbarProps) {
+export default function Header({ overlay = true, theme = "dark" }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const isLight = theme === "light";
 
-  const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const handleMouseEnter = (menu: string) => {
-    if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
-    setOpenDropdown(menu);
-  };
-
-  const handleMouseLeave = () => {
-    hoverTimeoutRef.current = setTimeout(() => setOpenDropdown(null), 150);
-  };
-
-  // Generic scroll function
-  const scrollToSection = (sectionId: string) => {
-    const section = document.getElementById(sectionId);
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
-    }
-    setMobileMenuOpen(false);
-  };
-
-  const scrollToJoinSection = () => {
-    howToJoinSectionRef.current?.scrollIntoView({ behavior: "smooth" });
-    setMobileMenuOpen(false);
-  };
-
-  const experienceRef = useRef<HowToJoinSectionRef>(null);
-  
   return (
-    <header className="absolute inset-x-0 top-0 z-50">
-      <nav className="flex items-center justify-between p-10 lg:px-12">
-        
+    <header
+      className={overlay ? "absolute inset-x-0 top-0 z-50" : "relative z-50"}
+    >
+      <nav className="flex items-center justify-between px-6 sm:px-10 lg:px-12 py-6 sm:py-8">
         {/* Logo */}
         <div className="flex lg:flex-1">
-          <Link to="/" onClick={() => setMobileMenuOpen(false)}>
+          <Link href="/" onClick={() => setMobileMenuOpen(false)}>
             <img
               className="w-[60px] lg:w-[80px] h-auto"
-              src="/logo-light.png"
+              src={isLight ? "/logo-dark.png" : "/logo-light.png"}
               alt="logo"
             />
           </Link>
@@ -60,7 +43,9 @@ export default function Navbar({ howToJoinSectionRef }: NavbarProps) {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(true)}
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-white"
+            className={`-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 ${
+              isLight ? "text-gray-900" : "text-white"
+            }`}
           >
             <HiMiniBars3BottomLeft className="w-6 h-6" />
           </button>
@@ -68,45 +53,36 @@ export default function Navbar({ howToJoinSectionRef }: NavbarProps) {
 
         {/* Desktop Navigation */}
         <div className="hidden lg:flex lg:gap-x-12">
-          <div className="hidden md:flex items-center space-x-16 px-12 py-4 rounded-full text-white bg-white/10 border border-white/40 backdrop-blur-md">
-
-            <button
-              onClick={() => scrollToSection("explore-section-1")}
-              className="hover:opacity-70 transition"
-            >
-              Products
-            </button>
-
-            <button
-              onClick={() => scrollToSection("services-section")}
-              className="hover:opacity-70 transition"
-            >
-              Services
-            </button>
-
-            <button
-              onClick={() => scrollToJoinSection()}
-              className="hover:opacity-70 transition"
-            >
-              Community
-            </button>
-
+          <div
+            className={`hidden md:flex items-center space-x-16 px-12 py-4 rounded-full backdrop-blur-md ${
+              isLight
+                ? "text-gray-900 bg-[rgb(237,228,213)] border border-[rgb(225,210,185)]"
+                : "text-white bg-white/10 border border-white/40"
+            }`}
+          >
+            {navLinks.map((link) => (
+              <Link
+                key={link.label}
+                href={link.href}
+                className="hover:opacity-70 transition"
+              >
+                {link.label}
+              </Link>
+            ))}
           </div>
         </div>
 
         {/* Desktop CTA */}
         <div className="hidden lg:flex lg:flex-1 items-center lg:justify-end">
-          <button
-            onClick={scrollToJoinSection}
-            className="group inline-flex items-center rounded-full border border-white px-2 py-2 transition duration-300"
+          <Link
+            href="/begin-your-journey"
+            className={`group inline-flex items-center gap-1.5 font-medium underline underline-offset-4 decoration-1 hover:opacity-70 transition ${
+              isLight ? "text-gray-900" : "text-white"
+            }`}
           >
-            <span className="text-white font-light pl-2">
-              Experience Ulô
-            </span>
-            <span className="ml-4 flex h-8 w-8 items-center justify-center rounded-full text-white transition-all duration-300 group-hover:-translate-x-2">
-              <ArrowRightIcon className="h-4 w-4" />
-            </span>
-          </button>
+            Begin Your Journey
+            <ArrowUpRightIcon className="h-4 w-4" />
+          </Link>
         </div>
 
         {/* Mobile Menu */}
@@ -118,14 +94,9 @@ export default function Navbar({ howToJoinSectionRef }: NavbarProps) {
           <div className="fixed inset-0 z-50 bg-black/50" />
 
           <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white p-6 sm:max-w-sm">
-
             <div className="flex items-center justify-between">
-              <Link to="/" onClick={() => setMobileMenuOpen(false)}>
-                <img
-                  src="/logo-dark.png"
-                  alt="logo"
-                  className="w-[60px]"
-                />
+              <Link href="/" onClick={() => setMobileMenuOpen(false)}>
+                <img src="/logo-dark.png" alt="logo" className="w-[60px]" />
               </Link>
 
               <button
@@ -138,45 +109,28 @@ export default function Navbar({ howToJoinSectionRef }: NavbarProps) {
             </div>
 
             <div className="mt-6 space-y-6 py-6">
-
-              <button
-                onClick={() => scrollToSection("explore-section-1")}
-                className="block w-full text-left text-gray-900 font-medium"
-              >
-                Products
-              </button>
-
-              <button
-                onClick={() => scrollToSection("services-section")}
-                className="block w-full text-left text-gray-900 font-medium"
-              >
-                Services
-              </button>
-
-              <button
-                onClick={() => scrollToJoinSection()}
-                className="block w-full text-left text-gray-900 font-medium"
-              >
-                Community
-              </button>
-
+              {navLinks.map((link) => (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block w-full text-left text-gray-900 font-medium"
+                >
+                  {link.label}
+                </Link>
+              ))}
             </div>
 
-            {/* Mobile CTA */}
             <div className="py-6 space-y-4">
-              <button
-                onClick={scrollToJoinSection}
-                className="group inline-flex w-full justify-center items-center rounded-full border-[#060809] border px-3 py-3 transition duration-300"
+              <Link
+                href="/begin-your-journey"
+                onClick={() => setMobileMenuOpen(false)}
+                className="group inline-flex items-center gap-1.5 text-[#060809] font-medium underline underline-offset-4 decoration-1"
               >
-                <span className="text-[#060809] font-light pl-2">
-                  Experience Ulô
-                </span>
-                <span className="ml-4 flex h-8 w-8 items-center justify-center rounded-full text-[#060809] transition-all duration-300 group-hover:-translate-y-1">
-                  <ArrowRightIcon className="h-4 w-4" />
-                </span>
-              </button>
+                Begin Your Journey
+                <ArrowUpRightIcon className="h-4 w-4" />
+              </Link>
             </div>
-
           </DialogPanel>
         </Dialog>
       </nav>

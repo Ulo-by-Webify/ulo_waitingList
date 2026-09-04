@@ -1,3 +1,5 @@
+"use client";
+
 // src/components/ExperienceSection.tsx
 import React, {
   useState,
@@ -45,7 +47,11 @@ const ExperienceSection = forwardRef<HowToJoinSectionRef>((_, ref) => {
   }));
 
   return (
-    <section ref={sectionRef} className="py-40 bg-gray-50">
+    <section
+      ref={sectionRef}
+      id="how-to-join-section"
+      className="py-40 bg-gray-50"
+    >
       <SectionHeader title="Experience Ulô as a" align="center" />
 
       <div className="mt-16 flex flex-col md:flex-row justify-center items-center gap-10 px-6">

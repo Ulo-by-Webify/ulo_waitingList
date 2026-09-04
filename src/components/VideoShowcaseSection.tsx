@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useRef, useState, useEffect } from "react";
 import { Play } from "lucide-react";
 import { HeroContent } from "@/types";

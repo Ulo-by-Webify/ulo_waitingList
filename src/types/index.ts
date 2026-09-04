@@ -55,3 +55,42 @@ export interface FlippedSlide {
 
 // Alias for backward compatibility and semantic clarity
 export interface ServiceSlide extends FlippedSlide {}
+
+export interface JournalFeaturedStory {
+  id: number;
+  tag: string;
+  title: string;
+  description: string;
+  image: string;
+  href: string;
+}
+
+export interface JournalContentBlock {
+  type: "paragraph" | "heading";
+  text: string;
+}
+
+export interface JournalListBlock {
+  type: "list";
+  items: string[];
+}
+
+export type JournalBodyBlock = JournalContentBlock | JournalListBlock;
+
+export interface JournalStory {
+  id: number;
+  slug: string;
+  title: string;
+  excerpt: string;
+  image?: string;
+  category: string;
+  date: string;
+  author: string;
+  authorAvatar?: string;
+  href: string;
+  badge?: string;
+  content?: JournalBodyBlock[];
+  likes?: number;
+  commentsCount?: number;
+  shares?: number;
+}
