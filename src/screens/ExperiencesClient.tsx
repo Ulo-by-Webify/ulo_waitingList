@@ -8,27 +8,27 @@ import ExperienceCategoryRow from "@/components/experiences/ExperienceCategoryRo
 import EarlyAccessSection from "@/components/experiences/EarlyAccessSection";
 import BecomeProviderSection from "@/components/experiences/BecomeProviderSection";
 import MailerLiteModal from "@/components/mailer-lite/MailerLiteModal";
-import { experienceCategories } from "@/data/experiences";
+import type { ExperiencesContent } from "@/lib/experiences-content";
 
-const ExperiencesClient = () => {
+const ExperiencesClient = ({ content }: { content: ExperiencesContent }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-[#F7F1E8]">
-      <ExperiencesHero />
-      <ExperienceShowcase />
+      <ExperiencesHero hero={content.hero} />
+      <ExperienceShowcase showcase={content.showcase} />
 
-      {experienceCategories.map((category, index) => (
+      {content.rows.map((row, index) => (
         <ExperienceCategoryRow
-          key={category.id}
-          category={category}
+          key={row.id}
+          row={row}
           showCta={index === 0}
           onCtaClick={() => setIsModalOpen(true)}
         />
       ))}
 
-      <EarlyAccessSection />
-      <BecomeProviderSection />
+      <EarlyAccessSection title={content.earlyAccess.title || null} />
+      <BecomeProviderSection provider={content.provider} />
 
       <Footer />
 

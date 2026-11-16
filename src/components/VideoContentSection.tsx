@@ -112,9 +112,8 @@ const VideoContentSection: React.FC<VideoContentSectionProps> = ({
                 className={media1ClassName}
                 muted
                 loop={isLooped}
-                autoPlay
                 playsInline
-                preload="metadata"
+                preload="none"
               >
                 <source
                   src={video1}
@@ -128,7 +127,7 @@ const VideoContentSection: React.FC<VideoContentSectionProps> = ({
                 />
                 Your browser does not support the video tag.
               </video>
-            ) : video1.match(/\.(png|jpg|jpeg)$/i) ? (
+            ) : video1.match(/\.(png|jpe?g|webp|gif)$/i) ? (
               <img src={video1} className={media1ClassName} />
             ) : null}
 
@@ -159,9 +158,8 @@ const VideoContentSection: React.FC<VideoContentSectionProps> = ({
                   className={media2ClassName}
                   muted
                   loop={isLooped}
-                  autoPlay
                   playsInline
-                  preload="metadata"
+                  preload="none"
                 >
                   <source
                     src={video2}
@@ -175,7 +173,7 @@ const VideoContentSection: React.FC<VideoContentSectionProps> = ({
                   />
                   Your browser does not support the video tag.
                 </video>
-              ) : video2.match(/\.(png|jpg|jpeg)$/i) ? (
+              ) : video2.match(/\.(png|jpe?g|webp|gif)$/i) ? (
                 <img src={video2} alt={title2} className={media2ClassName} />
               ) : null}
             </div>

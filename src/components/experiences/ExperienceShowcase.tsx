@@ -3,10 +3,15 @@
 import React, { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { experienceShowcaseSlides } from "@/data/experiences";
+import CoverImage from "@/components/journal/CoverImage";
+import type { ExperiencesContent } from "@/lib/experiences-content";
 
-const ExperienceShowcase = () => {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
+type ExperienceShowcaseProps = { showcase: ExperiencesContent["showcase"] };
+
+const ExperienceShowcase = ({ showcase }: ExperienceShowcaseProps) => {
+  const slides = showcase.slides;
+  const hasMany = slides.length > 1;
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: hasMany, active: hasMany });
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const onSelect = useCallback(() => {
@@ -17,15 +22,19 @@ const ExperienceShowcase = () => {
   useEffect(() => {
     if (!emblaApi) return;
     onSelect();
-    emblaApi.on("select", onSelect);
-    emblaApi.on("reInit", onSelect);
+    emblaApi.on("select", onSelect).on("reInit", onSelect);
+    return () => {
+      emblaApi.off("select", onSelect).off("reInit", onSelect);
+    };
   }, [emblaApi, onSelect]);
 
   useEffect(() => {
-    if (!emblaApi) return;
+    if (!emblaApi || !hasMany) return;
     const interval = setInterval(() => emblaApi.scrollNext(), 4500);
     return () => clearInterval(interval);
-  }, [emblaApi]);
+  }, [emblaApi, hasMany]);
+
+  const current = slides[Math.min(selectedIndex, slides.length - 1)];
 
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
@@ -43,23 +52,20 @@ const ExperienceShowcase = () => {
 
       <div className="mx-auto max-w-3xl px-6 text-center">
         <h2 className="text-3xl font-semibold text-gray-900 sm:text-4xl">
-          More Than Where You Stay
+          {showcase.title}
         </h2>
-        <p className="mt-4 text-gray-500">
-          Your experience extends beyond your home. It's in the people you
-          meet, the places you discover, and the moments you carry with you.
-        </p>
+        {showcase.body && <p className="mt-4 text-gray-500">{showcase.body}</p>}
       </div>
 
       <div className="mx-auto mt-12 max-w-4xl px-6">
         <div className="relative overflow-hidden rounded-3xl" ref={emblaRef}>
           <div className="flex">
-            {experienceShowcaseSlides.map((slide) => (
+            {slides.map((slide) => (
               <div key={slide.id} className="relative min-w-0 flex-[0_0_100%]">
                 <div className="relative aspect-[16/10] sm:aspect-[16/9]">
-                  <img
+                  <CoverImage
                     src={slide.image}
-                    alt={slide.caption}
+                    alt={slide.title}
                     className="absolute inset-0 h-full w-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/5 to-transparent" />
@@ -71,15 +77,15 @@ const ExperienceShowcase = () => {
           <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-6">
             <div>
               <p className="text-lg font-medium text-white">
-                {experienceShowcaseSlides[selectedIndex].caption}
+                {current?.title}
               </p>
-              <p className="mt-1 text-sm text-white/75">
-                {experienceShowcaseSlides[selectedIndex].subtitle}
-              </p>
+              {current?.subtitle && (
+                <p className="mt-1 text-sm text-white/75">{current.subtitle}</p>
+              )}
             </div>
 
-            <div className="flex items-center gap-1.5">
-              {experienceShowcaseSlides.map((_, index) => (
+            <div className={`flex items-center gap-1.5 ${hasMany ? "" : "hidden"}`}>
+              {slides.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => scrollTo(index)}
@@ -93,7 +99,7 @@ const ExperienceShowcase = () => {
           </div>
         </div>
 
-        <div className="mt-6 flex items-center justify-center gap-3">
+        <div className={`mt-6 items-center justify-center gap-3 ${hasMany ? "flex" : "hidden"}`}>
           <button
             onClick={scrollPrev}
             aria-label="Previous"

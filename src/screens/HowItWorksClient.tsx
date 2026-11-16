@@ -1,23 +1,16 @@
 "use client";
 
-import React, { useRef } from "react";
+import React from "react";
 import Header from "@/components/Header";
-import HeroSection from "@/components/HeroSection";
-import NotAListingSection from "@/components/NotAListingSection";
-import VideoShowcaseSection from "@/components/VideoShowcaseSection";
+import HowItWorksHero from "@/components/HowItWorksHero";
 import VideoContentSection from "@/components/VideoContentSection";
 import Footer from "@/components/Footer";
-import ScrollDotsSection from "@/components/ScrollDotsSection";
-import { heroContent } from "@/data";
 import { useIsMobile } from "@/hooks/use-mobile";
-import ServicesCarousel from "@/components/ServicesCarousel";
-import ExperienceSection, { HowToJoinSectionRef } from "@/components/ExperienceSection";
 import ExploreSection from "@/components/ExploreSection";
 import ProductGallery from "@/components/ProductGallery";
+import EarlyAccessSection from "@/components/experiences/EarlyAccessSection";
 
-const HowItWorksClient = () => {
-
-  const experienceRef = useRef<HowToJoinSectionRef>(null);
+const HowItWorksClient = ({ heroImage }: { heroImage: string }) => {
 
   const isMobile = useIsMobile();
   console.log(isMobile);
@@ -26,13 +19,7 @@ const HowItWorksClient = () => {
       <Header />
 
       <div className="">
-        <HeroSection heroContent={heroContent} />
-
-        <NotAListingSection />
-
-        <VideoShowcaseSection heroContent={heroContent} />
-
-        <ScrollDotsSection />
+        <HowItWorksHero image={heroImage} />
 
           <VideoContentSection
             title1={
@@ -41,7 +28,7 @@ const HowItWorksClient = () => {
               </>
             }
             subtitle1="Discover curated homes across Africa-professionally prepared, thoughtfully managed, and ready for your next journey."
-            video1="/icons/MAP.png"
+            video1="/icons/MAP.webp"
             media1ClassName="w-[300px] md:w-[500px] object-contain mx-auto"
             listItems={[
               "Professionally prepared homes, ready before you arrive.",
@@ -78,7 +65,7 @@ const HowItWorksClient = () => {
           <VideoContentSection
             title1="Xperience Gallery"
             subtitle1="From vibrant cities to cultural local events, capture and save meaningful moments throughout your journey—making every trip unforgettable."
-            video1="/xperience-gallery.png"
+            video1="/xperience-gallery.webp"
             media1WrapperClassName="relative overflow-hidden"
             media1ClassName="w-full lg:w-[550px] h-[650px] object-cover object-top mx-auto"
             title2="See the soul of every stay"
@@ -106,7 +93,7 @@ const HowItWorksClient = () => {
           media1ClassName="w-[300px] md:w-[500px] object-contain mx-auto"
           title2="Seamless Journeys, Simple Payments"
           subtitle2="Ulô Cowries enables you to focus stays on the adventure, not the transaction."
-          video2="/cowries-wallet.png"
+          video2="/cowries-wallet.webp"
           media2ClassName="w-full lg:w-[550px] max-h-[320px] md:max-h-[520px] object-contain mb-10"
           listItems={[
             "Convert with USD valuation—1 ACW = 1 USD.",
@@ -128,7 +115,7 @@ const HowItWorksClient = () => {
           media1ClassName="w-[300px] md:w-[500px] object-contain mx-auto"
           title2="Feel the city, not the stress"
           subtitle2="Welcomes you like family and supported every step for a truly effortless stay."
-          video2="/icons/ulo-badge.png"
+          video2="/icons/ulo-badge.webp"
           media2ClassName="w-full max-h-[320px] md:max-h-[520px] object-contain"
           listItems={[
             " Arrive to a fully prepared, clean home.",
@@ -142,11 +129,11 @@ const HowItWorksClient = () => {
         <VideoContentSection
           title1="Guest Navbook"
           subtitle1="Your ultimate guide to every stay. Explore neighborhoods, discover local secrets, and navigate Africa with confidence."
-          video1="/icons/navbook.png"
+          video1="/icons/navbook.webp"
           media1ClassName="w-[300px] md:w-[500px] object-contain mx-auto"
           title2="Navigate the city like a local"
           subtitle2="Get insider tips and local know-how to explore every corner with confidence."
-          video2="/guest-navbook.png"
+          video2="/guest-navbook.webp"
           media2ClassName="w-full max-h-[320px] md:max-h-[520px] object-contain mb-16"
           listItems={[
             "Know where to eat, shop, and explore safely.",
@@ -164,7 +151,7 @@ const HowItWorksClient = () => {
               Turn every group trip into a seamless, <br />shared experience. Plan together, manage logistics, <br />and capture memories.
               </>
             }
-            video1="/icons/triplinkicon.png"
+            video1="/icons/triplinkicon.webp"
             media1WrapperClassName="relative overflow-hidden"
             media1ClassName="w-full lg:w-[450px] h-[450px] object-cover object-top mx-auto"
             title2="Create good memories together"
@@ -179,9 +166,7 @@ const HowItWorksClient = () => {
             sectionId="triplink-section"
           />
 
-        <ServicesCarousel sectionId="services-section" />
-
-        <ExperienceSection ref={experienceRef} />
+        <EarlyAccessSection title={null} />
 
         <Footer />
       </div>

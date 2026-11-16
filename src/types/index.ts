@@ -57,7 +57,7 @@ export interface FlippedSlide {
 export interface ServiceSlide extends FlippedSlide {}
 
 export interface JournalFeaturedStory {
-  id: number;
+  id: string; // UUID
   tag: string;
   title: string;
   description: string;
@@ -78,13 +78,16 @@ export interface JournalListBlock {
 export type JournalBodyBlock = JournalContentBlock | JournalListBlock;
 
 export interface JournalStory {
-  id: number;
+  id: string; // UUID
   slug: string;
   title: string;
   excerpt: string;
   image?: string;
   category: string;
   date: string;
+  /** ISO timestamps, for search engines. */
+  publishedAt?: string;
+  updatedAt?: string;
   author: string;
   authorAvatar?: string;
   href: string;
@@ -93,4 +96,12 @@ export interface JournalStory {
   likes?: number;
   commentsCount?: number;
   shares?: number;
+}
+
+/** A visible comment on a journal post, as shown on the public site. */
+export interface JournalComment {
+  id: string; // UUID
+  authorName: string;
+  body: string;
+  createdAt: string; // ISO timestamp
 }

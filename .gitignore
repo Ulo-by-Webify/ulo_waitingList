@@ -12,6 +12,10 @@ node_modules
 next-env.d.ts
 *.local
 
+# Environment files hold secrets (database, bucket, Turnstile keys); never commit them.
+.env
+.env*
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -30,3 +34,5 @@ next-env.d.ts
 .kiro/steering/byterover-rules.md
 .qoder/rules/byterover-rules.md
 .augment/rules/byterover-rules.md
+# Full-size originals of images that were resized for the web (kept locally, not deployed)
+original-assets/

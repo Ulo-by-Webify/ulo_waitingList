@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { JournalStory } from "@/types";
+import CoverImage from "./CoverImage";
 
 interface StoryCardProps {
   story: JournalStory;
@@ -11,8 +12,8 @@ const StoryCard: React.FC<StoryCardProps> = ({ story }) => {
   return (
     <Link href={story.href} className="group block">
       <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-gray-300 mb-4">
-        <img
-          src={story.image ?? "/placeholder.jpg"}
+        <CoverImage
+          src={story.image}
           alt={story.title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />

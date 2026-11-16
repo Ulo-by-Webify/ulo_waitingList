@@ -1,15 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
-import {
-  FaFacebook,
-  FaInstagram,
-  FaLinkedinIn,
-  FaXTwitter,
-  FaReddit,
-} from "react-icons/fa6";
+import { toast } from "sonner";
+import HoneypotField from "@/components/HoneypotField";
+import { submitErrorMessage, useTurnstile } from "@/components/turnstile/useTurnstile";
+import { TURNSTILE_ACTIONS, TURNSTILE_FIELD } from "@/lib/turnstile";
+import { SITE_IMAGES } from "@/lib/site-settings";
+import { ArrowLeftIcon, ArrowRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
+import { SocialIcons, useHasSocialLinks } from "@/components/SocialLinksProvider";
 
 export type UserType = "host" | "guest" | "associate";
 
@@ -55,24 +54,40 @@ const countries = [
   "Other",
 ];
 
-const socialLinks = [
-  { icon: FaInstagram, href: "#", label: "Instagram" },
-  { icon: FaFacebook, href: "#", label: "Facebook" },
-  { icon: FaLinkedinIn, href: "#", label: "LinkedIn" },
-  { icon: FaXTwitter, href: "#", label: "X" },
-  { icon: FaReddit, href: "#", label: "Reddit" },
-];
 
 const inputClasses =
   "w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40 transition";
 
-const OnboardingClient: React.FC = () => {
+// Native select arrows can't be positioned, so hide it and draw our own chevron.
+const selectClasses = `${inputClasses} appearance-none pr-11 cursor-pointer`;
+
+const SelectChevron = () => (
+  <ChevronDownIcon
+    aria-hidden="true"
+    className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500"
+  />
+);
+
+interface OnboardingClientProps {
+  /** Side image, set from the admin Site page. */
+  imageUrl: string;
+}
+
+const DEFAULT_ONBOARDING_IMAGE = SITE_IMAGES.onboarding_image.defaultUrl;
+
+const OnboardingClient: React.FC<OnboardingClientProps> = ({ imageUrl }) => {
+  // If a custom image fails to load (e.g. it was deleted), show the original instead.
+  const [sideImage, setSideImage] = useState(imageUrl || DEFAULT_ONBOARDING_IMAGE);
+  const hasSocialLinks = useHasSocialLinks();
   const router = useRouter();
   const [step, setStep] = useState<Step>("intro");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [country, setCountry] = useState("");
   const [userType, setUserType] = useState<UserType | "">("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const honeypotRef = useRef<HTMLInputElement>(null);
+  const turnstile = useTurnstile(TURNSTILE_ACTIONS.waitlist);
 
   const handleGoBack = () => {
     if (step === "form") {
@@ -82,9 +97,29 @@ const OnboardingClient: React.FC = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setStep("success");
+    setIsSubmitting(true);
+    try {
+      const turnstileToken = await turnstile.getToken();
+      const response = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ fullName: name, email, country, userType, website: honeypotRef.current?.value ?? "", [TURNSTILE_FIELD]: turnstileToken }),
+      });
+      const body = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        toast.error(body.error ?? "Something went wrong. Please try again.");
+        return;
+      }
+      toast.success("You're on the waitlist!");
+      setStep("success");
+    } catch (error) {
+      toast.error(submitErrorMessage(error, "Network error. Check your connection and try again."));
+    } finally {
+      turnstile.reset();
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -154,7 +189,8 @@ const OnboardingClient: React.FC = () => {
                 Be among the first to explore, book, and experience.
               </p>
 
-              <form onSubmit={handleSubmit} className="mt-8 space-y-3">
+              <form onSubmit={handleSubmit} className="relative mt-8 space-y-3">
+                <HoneypotField ref={honeypotRef} />
                 <input
                   type="text"
                   required
@@ -171,46 +207,54 @@ const OnboardingClient: React.FC = () => {
                   placeholder="Your email address"
                   className={inputClasses}
                 />
-                <select
-                  required
-                  value={country}
-                  onChange={(e) => setCountry(e.target.value)}
-                  className={`${inputClasses} ${country ? "text-gray-900" : "text-gray-400"}`}
-                >
-                  <option value="" disabled>
-                    Select your country of residence
-                  </option>
-                  {countries.map((c) => (
-                    <option key={c} value={c} className="text-gray-900">
-                      {c}
+                <div className="relative">
+                  <select
+                    required
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
+                    className={`${selectClasses} ${country ? "text-gray-900" : "text-gray-400"}`}
+                  >
+                    <option value="" disabled>
+                      Select your country of residence
                     </option>
-                  ))}
-                </select>
-                <select
-                  required
-                  value={userType}
-                  onChange={(e) => setUserType(e.target.value as UserType)}
-                  className={`${inputClasses} ${userType ? "text-gray-900" : "text-gray-400"}`}
-                >
-                  <option value="" disabled>
-                    I&apos;m here to:
-                  </option>
-                  <option value="guest" className="text-gray-900">
-                    Explore &amp; book stays
-                  </option>
-                  <option value="host" className="text-gray-900">
-                    Host my home
-                  </option>
-                  <option value="associate" className="text-gray-900">
-                    Become an Associate
-                  </option>
-                </select>
+                    {countries.map((c) => (
+                      <option key={c} value={c} className="text-gray-900">
+                        {c}
+                      </option>
+                    ))}
+                  </select>
+                  <SelectChevron />
+                </div>
+                <div className="relative">
+                  <select
+                    required
+                    value={userType}
+                    onChange={(e) => setUserType(e.target.value as UserType)}
+                    className={`${selectClasses} ${userType ? "text-gray-900" : "text-gray-400"}`}
+                  >
+                    <option value="" disabled>
+                      I&apos;m here to:
+                    </option>
+                    <option value="guest" className="text-gray-900">
+                      Explore &amp; book stays
+                    </option>
+                    <option value="host" className="text-gray-900">
+                      Host my home
+                    </option>
+                    <option value="associate" className="text-gray-900">
+                      Become an Associate
+                    </option>
+                  </select>
+                  <SelectChevron />
+                </div>
 
+                {turnstile.widget}
                 <button
                   type="submit"
-                  className="w-full inline-flex items-center justify-center gap-1.5 rounded-full bg-primary px-8 py-3.5 text-sm font-medium text-white transition hover:bg-gray-800"
+                  disabled={isSubmitting}
+                  className="w-full inline-flex items-center justify-center gap-1.5 rounded-full bg-primary px-8 py-3.5 text-sm font-medium text-white transition hover:bg-gray-800 disabled:opacity-60"
                 >
-                  Join early access
+                  {isSubmitting ? "Joining…" : "Join early access"}
                   <ArrowRightIcon className="h-4 w-4" />
                 </button>
               </form>
@@ -235,34 +279,25 @@ const OnboardingClient: React.FC = () => {
               <p className="mt-8 text-sm text-gray-500">
                 We&apos;ll let you know the moment we open.
               </p>
-
-              <div className="mt-16">
-                <p className="text-sm text-gray-500">
-                  Stay close to the journey. Follow us:
-                </p>
-                <div className="mt-4 flex items-center justify-center gap-4">
-                  {socialLinks.map(({ icon: Icon, href, label }) => (
-                    <a
-                      key={label}
-                      href={href}
-                      aria-label={label}
-                      className="text-gray-900 hover:opacity-70 transition"
-                    >
-                      <Icon className="h-5 w-5" />
-                    </a>
-                  ))}
-                </div>
-              </div>
             </div>
           )}
         </div>
+
+        {/* Pinned to the bottom of the column, below the centred confirmation. */}
+        {step === "success" && hasSocialLinks && (
+          <div className="max-w-md mx-auto w-full pt-6 text-center">
+            <p className="text-sm text-gray-500">Stay close to the journey. Follow us:</p>
+            <SocialIcons className="mt-4 justify-center" />
+          </div>
+        )}
       </div>
 
       {/* Right: image */}
       <div className="relative hidden lg:flex lg:items-start lg:justify-center">
         <img
-          src="/auth-img.jpg"
+          src={sideImage}
           alt="Ulô experience"
+          onError={() => setSideImage(DEFAULT_ONBOARDING_IMAGE)}
           className="h-[95vh] w-full object-cover rounded-b-[2.5rem]"
         />
       </div>

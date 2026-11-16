@@ -1,18 +1,14 @@
 "use client";
 
 import React, { useRef } from "react";
-import { HeroContent } from "@/types";
+import type { HomeContent } from "@/lib/home-content";
 import BlurText from "@/components/BlurText";
 import { ArrowDownIcon } from "@heroicons/react/24/outline";
 import { useMobileVideoPlayback } from "../hooks/useMobileVideoPlayback";
 
 interface HeroSectionProps {
-  heroContent: HeroContent;
+  hero: HomeContent["hero"];
 }
-
-const handleAnimationComplete = () => {
-  console.log("Animation completed!");
-};
 
 const handleScrollToVideo = () => {
   const videoSection = document.getElementById("video-section");
@@ -21,17 +17,18 @@ const handleScrollToVideo = () => {
   }
 };
 
-const HeroSection: React.FC<HeroSectionProps> = ({ heroContent }) => {
+const HeroSection: React.FC<HeroSectionProps> = ({ hero }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   useMobileVideoPlayback(videoRef);
 
   return (
-    <section className="relative h-[95dvh] w-full flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <section className="relative min-h-[100dvh] w-full flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden">
       {/* Background Video */}
       <video
         // ref={videoRef}
         className="absolute inset-0 w-full h-full object-cover z-0"
-        src="/videos/hero-page.mp4"
+        key={hero.video}
+        src={hero.video}
         autoPlay
         muted
         loop
@@ -49,17 +46,19 @@ const HeroSection: React.FC<HeroSectionProps> = ({ heroContent }) => {
       {/* Content */}
       <div className="relative z-20 max-w-sm md:max-w-5xl p-5 mx-auto mt-40 text-center">
         <BlurText
-          text="Don’t Just Visit Africa"
-          bottomText="Experience it."
+          key={`${hero.title}|${hero.emphasis}`}
+          text={hero.title}
+          bottomText={hero.emphasis || undefined}
           animateBy="words"
           direction="top"
-          onAnimationComplete={handleAnimationComplete}
           className="text-[2.2rem] sm:text-6xl md:text-8xl text-white mb-1 tracking-tight font-bold leading-[0.9]"
           bottomTextClassName="text-[2.6rem] sm:text-7xl md:text-9xl font-thin"
         />
-        <p className="text-lg text-white mt-6 mb-24 md:px-20 leading-relaxed animate-fade-in max-w-3xl mx-auto tracking-wide font-light">
-          {heroContent.description}
-        </p>
+        {hero.text && (
+          <p className="text-lg text-white mt-6 mb-24 md:px-20 leading-relaxed animate-fade-in max-w-3xl mx-auto tracking-wide font-light">
+            {hero.text}
+          </p>
+        )}
 
         <div className="flex justify-center animate-bounce duration-1000 mb-12">
           <button

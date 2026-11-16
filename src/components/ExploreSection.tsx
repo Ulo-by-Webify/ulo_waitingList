@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link"
 import { Heart, ChevronLeft, ChevronRight } from "lucide-react"
 
 export default function ExploreSection() {
@@ -111,9 +112,12 @@ function CategoryCard({
           {description}
         </p>
 
-        <button className="mt-6 w-full bg-neutral-900 text-white py-3 rounded-full font-medium hover:bg-neutral-800 transition">
+        <Link
+          href="/begin-your-journey"
+          className="mt-6 block w-full bg-neutral-900 text-white py-3 rounded-full text-center font-medium hover:bg-neutral-800 transition"
+        >
           Book home
-        </button>
+        </Link>
       </div>
     </div>
   )

@@ -9,7 +9,8 @@ import {
   HeartIcon,
   ChatBubbleLeftIcon,
   ShareIcon,
-  PaperAirplaneIcon,
+  LinkIcon,
+  CheckIcon,
 } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
 import {
@@ -22,39 +23,112 @@ import {
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import RichText from "@/components/journal/RichText";
-import { JournalStory } from "@/types";
+import CoverImage from "@/components/journal/CoverImage";
+import { JournalComment, JournalStory } from "@/types";
+import CommentsSection from "@/components/journal/CommentsSection";
+import { shareIntentUrl, type ShareNetwork } from "@/lib/share";
 
 const shareLinks = [
-  { icon: FaWhatsapp, label: "WhatsApp" },
-  { icon: FaFacebookF, label: "Facebook" },
-  { icon: FaLinkedinIn, label: "LinkedIn" },
-  { icon: FaXTwitter, label: "X" },
-  { icon: FaThreads, label: "Threads" },
-];
+  { network: "whatsapp", icon: FaWhatsapp, label: "WhatsApp" },
+  { network: "facebook", icon: FaFacebookF, label: "Facebook" },
+  { network: "linkedin", icon: FaLinkedinIn, label: "LinkedIn" },
+  { network: "x", icon: FaXTwitter, label: "X" },
+  { network: "threads", icon: FaThreads, label: "Threads" },
+] as const;
+
+const SHARE_POPUP_FEATURES = "noopener,noreferrer,width=600,height=640";
+const COPIED_RESET_MS = 2000;
+
+function recordShare(slug: string, network: ShareNetwork) {
+  fetch(`/api/journal/${slug}/share`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ network }),
+    keepalive: true,
+  }).catch(() => {
+    // Counting is best-effort; the share itself already happened.
+  });
+}
 
 interface JournalDetailClientProps {
   story: JournalStory;
   relatedStories: JournalStory[];
+  /** Null when likes and comments couldn't be loaded; the story still renders. */
+  engagement: {
+    likes: number;
+    liked: boolean;
+    commentCount: number;
+    comments: JournalComment[];
+  } | null;
 }
 
 const JournalDetailClient: React.FC<JournalDetailClientProps> = ({
   story,
   relatedStories,
+  engagement,
 }) => {
-  const [liked, setLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(story.likes ?? 0);
-  const [comment, setComment] = useState("");
+  const [liked, setLiked] = useState(engagement?.liked ?? false);
+  const [likeCount, setLikeCount] = useState(engagement?.likes ?? 0);
+  const [isLiking, setIsLiking] = useState(false);
+  const [comments, setComments] = useState(engagement?.comments ?? []);
+  const [commentCount, setCommentCount] = useState(engagement?.commentCount ?? 0);
+  const [shareCount, setShareCount] = useState(story.shares ?? 0);
+  const [isCopied, setIsCopied] = useState(false);
 
-  const toggleLike = () => {
-    setLiked((prev) => !prev);
-    setLikeCount((prev) => (liked ? prev - 1 : prev + 1));
+  // Always share the clean article URL, without any tracking params from the current visit.
+  const articleUrl = () => `${window.location.origin}/journal/${story.slug}`;
+
+  const countShare = (network: ShareNetwork) => {
+    setShareCount((prev) => prev + 1);
+    recordShare(story.slug, network);
   };
 
-  const handleComment = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!comment.trim()) return;
-    toast.success("Comment posted!");
-    setComment("");
+  const shareTo = (network: Exclude<ShareNetwork, "copy">) => {
+    window.open(shareIntentUrl(network, { url: articleUrl(), title: story.title }), "_blank", SHARE_POPUP_FEATURES);
+    countShare(network);
+  };
+
+  const copyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(articleUrl());
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), COPIED_RESET_MS);
+      toast.success("Link copied");
+      countShare("copy");
+    } catch {
+      toast.error("Couldn't copy the link");
+    }
+  };
+
+  // Optimistic: flip immediately, then settle on the server's count (or roll back on failure).
+  const toggleLike = async () => {
+    if (isLiking) return;
+    const next = !liked;
+    setIsLiking(true);
+    setLiked(next);
+    setLikeCount((prev) => Math.max(0, prev + (next ? 1 : -1)));
+    try {
+      const response = await fetch(`/api/journal/${story.slug}/like`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ liked: next }),
+      });
+      const json = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(json.error ?? "Couldn't save your like");
+      setLiked(json.data.liked);
+      setLikeCount(json.data.likes);
+    } catch (error) {
+      setLiked(!next);
+      setLikeCount((prev) => Math.max(0, prev + (next ? -1 : 1)));
+      toast.error(error instanceof Error ? error.message : "Couldn't save your like");
+    } finally {
+      setIsLiking(false);
+    }
+  };
+
+  const handleCommentPosted = (comment: JournalComment) => {
+    setComments((prev) => [comment, ...prev]);
+    setCommentCount((prev) => prev + 1);
   };
 
   return (
@@ -104,8 +178,8 @@ const JournalDetailClient: React.FC<JournalDetailClientProps> = ({
             </div>
 
             <div className="relative aspect-[16/10] rounded-2xl overflow-hidden bg-gray-300 mb-8">
-              <img
-                src={story.image ?? "/placeholder.jpg"}
+              <CoverImage
+                src={story.image}
                 alt={story.title}
                 className="w-full h-full object-cover"
               />
@@ -150,7 +224,10 @@ const JournalDetailClient: React.FC<JournalDetailClientProps> = ({
             <div className="flex flex-col sm:flex-row sm:items-center gap-4 mt-10 pt-6 border-t border-gray-200">
               <div className="flex items-center gap-5">
                 <button
+                  type="button"
                   onClick={toggleLike}
+                  aria-pressed={liked}
+                  aria-label={liked ? "Unlike this story" : "Like this story"}
                   className="inline-flex items-center gap-1.5 text-sm text-gray-600 hover:text-gray-900 transition"
                 >
                   {liked ? (
@@ -158,38 +235,29 @@ const JournalDetailClient: React.FC<JournalDetailClientProps> = ({
                   ) : (
                     <HeartIcon className="h-5 w-5" />
                   )}
-                  {likeCount} Likes
+                  {likeCount} {likeCount === 1 ? "Like" : "Likes"}
                 </button>
-                <span className="inline-flex items-center gap-1.5 text-sm text-gray-600">
+                <a
+                  href="#comments"
+                  className="inline-flex items-center gap-1.5 text-sm text-gray-600 hover:text-gray-900 transition"
+                >
                   <ChatBubbleLeftIcon className="h-5 w-5" />
-                  {story.commentsCount ?? 0} Comments
-                </span>
+                  {commentCount} {commentCount === 1 ? "Comment" : "Comments"}
+                </a>
                 <span className="inline-flex items-center gap-1.5 text-sm text-gray-600">
                   <ShareIcon className="h-5 w-5" />
-                  {story.shares ?? 0} Shares
+                  {shareCount} {shareCount === 1 ? "Share" : "Shares"}
                 </span>
               </div>
 
-              <form
-                onSubmit={handleComment}
-                className="flex-1 flex items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2"
-              >
-                <input
-                  type="text"
-                  value={comment}
-                  onChange={(e) => setComment(e.target.value)}
-                  placeholder="Write a comment..."
-                  className="flex-1 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none"
-                />
-                <button
-                  type="submit"
-                  aria-label="Post comment"
-                  className="h-8 w-8 flex-shrink-0 rounded-full bg-gray-900 text-white flex items-center justify-center hover:bg-gray-800 transition"
-                >
-                  <PaperAirplaneIcon className="h-3.5 w-3.5" />
-                </button>
-              </form>
             </div>
+
+            <CommentsSection
+              slug={story.slug}
+              comments={comments}
+              isUnavailable={engagement === null}
+              onPosted={handleCommentPosted}
+            />
           </div>
 
           {/* Sidebar */}
@@ -199,15 +267,27 @@ const JournalDetailClient: React.FC<JournalDetailClientProps> = ({
                 Share to
               </h4>
               <div className="flex items-center gap-2">
-                {shareLinks.map(({ icon: Icon, label }) => (
+                {shareLinks.map(({ network, icon: Icon, label }) => (
                   <button
-                    key={label}
+                    key={network}
+                    type="button"
+                    onClick={() => shareTo(network)}
                     aria-label={`Share to ${label}`}
+                    title={`Share to ${label}`}
                     className="h-9 w-9 rounded-full border border-gray-200 bg-white text-gray-700 flex items-center justify-center hover:bg-gray-900 hover:text-white hover:border-gray-900 transition"
                   >
                     <Icon className="h-4 w-4" />
                   </button>
                 ))}
+                <button
+                  type="button"
+                  onClick={copyLink}
+                  aria-label="Copy link"
+                  title="Copy link"
+                  className="h-9 w-9 rounded-full border border-gray-200 bg-white text-gray-700 flex items-center justify-center hover:bg-gray-900 hover:text-white hover:border-gray-900 transition"
+                >
+                  {isCopied ? <CheckIcon className="h-4 w-4" /> : <LinkIcon className="h-4 w-4" />}
+                </button>
               </div>
             </div>
 
@@ -224,8 +304,8 @@ const JournalDetailClient: React.FC<JournalDetailClientProps> = ({
                       className="group flex items-center gap-3"
                     >
                       <div className="h-16 w-16 flex-shrink-0 rounded-xl overflow-hidden bg-gray-300">
-                        <img
-                          src={related.image ?? "/placeholder.jpg"}
+                        <CoverImage
+                          src={related.image}
                           alt={related.title}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />

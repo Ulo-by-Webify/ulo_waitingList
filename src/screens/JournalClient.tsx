@@ -1,15 +1,23 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import { BookOpenIcon } from "@heroicons/react/24/outline";
 import JournalHero from "@/components/journal/JournalHero";
 import StoryCard from "@/components/journal/StoryCard";
 import Footer from "@/components/Footer";
 import Newsletter from "@/components/Newsletter";
-import { journalFeaturedStories, journalStories } from "@/data";
+import type { JournalFeaturedStory, JournalStory } from "@/types";
 
 const PAGE_SIZE = 9;
 
-const JournalClient = () => {
+interface JournalClientProps {
+  heroSlides: JournalFeaturedStory[];
+  /** Hero background while no post is featured (set on the admin Site page). */
+  emptyHeroImage: string;
+  stories: JournalStory[];
+}
+
+const JournalClient = ({ heroSlides, stories: journalStories, emptyHeroImage }: JournalClientProps) => {
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
@@ -36,7 +44,7 @@ const JournalClient = () => {
 
   return (
     <div className="min-h-screen bg-[#F7F1E8]">
-      <JournalHero stories={journalFeaturedStories} />
+      <JournalHero stories={heroSlides} emptyImage={emptyHeroImage} />
 
       <section className="px-4 sm:px-6 lg:px-8 pt-24 pb-16 text-center">
         <h2 className="text-3xl sm:text-4xl font-semibold text-gray-900 mb-4">
@@ -54,11 +62,22 @@ const JournalClient = () => {
             <h3 className="text-xl font-semibold text-gray-900">Recent Stories</h3>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
-            {visibleStories.map((story) => (
-              <StoryCard key={story.id} story={story} />
-            ))}
-          </div>
+          {journalStories.length === 0 ? (
+            <div className="rounded-3xl border border-dashed border-gray-300 bg-white/60 px-6 py-16 text-center">
+              <BookOpenIcon className="mx-auto h-10 w-10 text-gray-400" aria-hidden="true" />
+              <h4 className="mt-4 text-lg font-semibold text-gray-900">No stories yet</h4>
+              <p className="mx-auto mt-2 max-w-sm text-sm text-gray-500">
+                We&apos;re gathering stories from across the continent. Subscribe below and we&apos;ll
+                let you know when the first ones land.
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+              {visibleStories.map((story) => (
+                <StoryCard key={story.id} story={story} />
+              ))}
+            </div>
+          )}
 
           {hasMore && (
             <div ref={loadMoreRef} className="flex justify-center mt-14 h-10">

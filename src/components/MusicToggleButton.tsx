@@ -67,9 +67,9 @@ const MusicToggleButton: React.FC<MusicToggleButtonProps> = ({
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary-400 opacity-10 "></span>
         )}
         {isPlaying ? (
-          <img src="/icons/PAUSE_DRUM.png" className="relative z-10" />
+          <img src="/icons/PAUSE_DRUM.webp" className="relative z-10" />
         ) : (
-          <img src="/icons/PLAY_DRUM.png" className="relative z-10" />
+          <img src="/icons/PLAY_DRUM.webp" className="relative z-10" />
         )}
       </button>
     </div>
