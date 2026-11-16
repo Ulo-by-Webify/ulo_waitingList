@@ -40,7 +40,7 @@ const CTASection: React.FC = () => {
         <div className="grid md:grid-cols-2 gap-8 my-3 md:my-16 items-center">
           <div className="">
             <img
-              src="/icons/BADGE.png"
+              src="/icons/BADGE.webp"
               alt="UCAP program logo"
               className="h-full mb-3 -ml-5 md:ml-0 "
             />

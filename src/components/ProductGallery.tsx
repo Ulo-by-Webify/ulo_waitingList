@@ -78,9 +78,9 @@ export default function App() {
       
       {/* --- HERO SECTION --- */}
       <div className="max-w-7xl mx-auto px-4 pt-20 pb-12 text-center">
-        <h1 className="text-3xl font-semibold text-primary mb-3">
+        <h2 className="text-3xl font-semibold text-primary mb-3">
           Handpicked homes across Africa
-        </h1>
+        </h2>
         <p className="text-neutral-500 mt-4 text-lg">
           Browse trusted homes, choose your style,<br />
           and book with confidence.

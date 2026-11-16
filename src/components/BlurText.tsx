@@ -298,7 +298,7 @@ const BlurText: React.FC<BlurTextProps> = ({
 
       {/* Bottom Text */}
       {bottomText && (
-        <h1 className={`blur-text text-center mt-2 ${bottomTextClassName}`}>
+        <p className={`blur-text text-center mt-2 ${bottomTextClassName}`}>
           {(animateBy === 'words' ? bottomText.split(' ') : bottomText.split('')).map((segment: string, index: number, arr: string[]) => {
             const animateKeyframes = buildKeyframes(fromSnapshot, toSnapshots)
             const spanTransition: Transition = { duration: totalDuration, times, delay: (index * delay) / 1000 }
@@ -316,7 +316,7 @@ const BlurText: React.FC<BlurTextProps> = ({
               </motion.span>
             )
           })}
-        </h1>
+        </p>
       )}
     </div>
   )

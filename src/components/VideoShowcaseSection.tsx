@@ -1,24 +1,28 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
+import { usePlayInView } from "@/hooks/usePlayInView";
 import { Play } from "lucide-react";
-import { HeroContent } from "@/types";
+import type { HomeContent } from "@/lib/home-content";
 
 interface VideoShowcaseSectionProps {
-  heroContent: HeroContent;
+  /** "This Is Africa" heading, text and videos, edited on the admin Home page. */
+  showcase: HomeContent["showcase"];
 }
 
 // const THUMBNAIL_URL =
 //   'https://res.cloudinary.com/dfcsaxtru/video/upload/q_55/v1753103917/THUMBNAIL_rkh4m3.mp4'
 
 const VideoShowcaseSection: React.FC<VideoShowcaseSectionProps> = ({
-  heroContent,
+  showcase,
 }) => {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showFullVideo, setShowFullVideo] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const previewRef = useRef<HTMLVideoElement>(null);
+  usePlayInView(previewRef);
 
   // Handle fullscreen changes
   useEffect(() => {
@@ -103,10 +107,13 @@ const VideoShowcaseSection: React.FC<VideoShowcaseSectionProps> = ({
     >
       <div className="max-w-20xl mx-auto">
         <div className="text-center mb-12">
-          <p className="text-xl  text-gray-600">
-            Not the Africa of postcards
-            <span className="block">but the one you’ve probably never experienced.</span>
-          </p>
+          <h2 className="mb-4 text-4xl font-semibold text-primary lg:text-6xl">{showcase.title}</h2>
+          {(showcase.line1 || showcase.line2) && (
+            <p className="text-xl  text-gray-600">
+              {showcase.line1}
+              {showcase.line2 && <span className="block">{showcase.line2}</span>}
+            </p>
+          )}
         </div>
         <div
           ref={containerRef}
@@ -118,13 +125,15 @@ const VideoShowcaseSection: React.FC<VideoShowcaseSectionProps> = ({
           {!showFullVideo ? (
             <>
               <video
+                ref={previewRef}
                 className="w-full h-full object-cover"
-                src="/videos/new/THUMBNAIL.mp4"
-                autoPlay
+                key={showcase.previewVideo}
+                src={showcase.previewVideo}
+                preload="none"
                 muted
                 loop
                 playsInline
-                poster="/thumbnail.jpg"
+                poster={showcase.poster}
               />
               {/* Pulsing Play Button */}
               <button
@@ -149,13 +158,13 @@ const VideoShowcaseSection: React.FC<VideoShowcaseSectionProps> = ({
             <video
               ref={videoRef}
               className="w-full h-full object-cover"
-              src={heroContent.videoUrl}
+              src={showcase.film}
               autoPlay
               muted={false}
               loop
               controls
               controlsList="nodownload"
-              poster="/video-placeholder.jpg"
+              poster={showcase.poster}
               onPlay={() => setIsVideoPlaying(true)}
               onPause={() => setIsVideoPlaying(false)}
             />

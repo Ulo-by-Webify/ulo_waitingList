@@ -201,6 +201,7 @@ const AncillaryServicesShowcase: React.FC<AncillaryServicesShowcaseProps> = ({
             className="w-full h-full"
             loop
             muted
+            preload="none"
             playsInline
           >
             <source src="/videos/ANCILARY.mp4" type="video/mp4" />

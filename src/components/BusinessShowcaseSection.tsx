@@ -200,6 +200,7 @@ const BusinessShowcaseSection: React.FC<BusinessShowcaseSectionProps> = ({
                 <video
                   ref={videoRef}
                   muted
+                  preload="none"
                   controlsList="nodownload"
                   className="h-[600px] w-[500px] -mt-12"
                   onLoadedMetadata={handleVideoLoadedMetadata}

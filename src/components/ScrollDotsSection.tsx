@@ -8,7 +8,12 @@ import { useMobileVideoPlayback } from '../hooks/useMobileVideoPlayback'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const ScrollDotsSection: React.FC = () => {
+type ScrollDotsSectionProps = {
+  title: string
+  subtitle: string
+}
+
+const ScrollDotsSection: React.FC<ScrollDotsSectionProps> = ({ title, subtitle }) => {
   const scrollDotsRef = useRef<HTMLDivElement>(null)
   const blueDotRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -49,10 +54,10 @@ const ScrollDotsSection: React.FC = () => {
     'https://res.cloudinary.com/dfcsaxtru/video/upload/v1756394424/CONNECTING_YOU_v9kp2u.mp4'
 
   return (
-    <div className="pb-10 md:pb-20">
+    <div className="pt-20 pb-10 md:pt-28 md:pb-20">
       <div className="text-center mb-20">
-        <h1 className="text-4xl lg:text-6xl font-semibold text-primary mb-3">Introducing Ulô</h1>
-        <p className="text-primary/60 max-w-sm mx-auto text-xl lg:text-2xl ">Connecting you to Africa.</p>
+        <h2 className="text-4xl lg:text-6xl font-semibold text-primary mb-3">{title}</h2>
+        {subtitle && <p className="text-primary/60 max-w-sm mx-auto text-xl lg:text-2xl ">{subtitle}</p>}
       </div>
       <div
         ref={scrollDotsRef}

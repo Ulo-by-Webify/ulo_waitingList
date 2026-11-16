@@ -1,14 +1,7 @@
 "use client";
 
 import React from 'react';
-import { FaFacebook, FaInstagram, FaXTwitter, FaReddit } from 'react-icons/fa6';
-
-const socialLinks = [
-  { icon: FaFacebook, href: '#', label: 'Facebook' },
-  { icon: FaInstagram, href: '#', label: 'Instagram' },
-  { icon: FaXTwitter, href: '#', label: 'X' },
-  { icon: FaReddit, href: '#', label: 'Reddit' }
-];
+import { SocialIcons } from '@/components/SocialLinksProvider';
 
 const Footer: React.FC = () => {
   return (
@@ -25,18 +18,7 @@ const Footer: React.FC = () => {
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-gray-400 pt-8 text-sm text-gray-600">
           <p>&copy; {new Date().getFullYear()} Ulo Africa LLC. All rights reserved.</p>
-          <div className="flex items-center gap-4">
-            {socialLinks.map(({ icon: Icon, href, label }) => (
-              <a
-                key={label}
-                href={href}
-                aria-label={label}
-                className="text-gray-900 hover:opacity-70 transition"
-              >
-                <Icon className="h-5 w-5" />
-              </a>
-            ))}
-          </div>
+          <SocialIcons />
         </div>
       </div>
     </footer>

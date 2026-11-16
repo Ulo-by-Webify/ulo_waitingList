@@ -3,46 +3,19 @@
 import React, { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import type { HomeContent } from "@/lib/home-content";
 
-interface LivedCard {
-  title: string;
-  subtitle: string;
-  image?: string;
-  icon?: string;
-  bg?: string;
-}
+type NotAListingSectionProps = {
+  /** Heading, cards and button, edited on the admin Home page. */
+  listing: HomeContent["listing"];
+};
 
-const cards: LivedCard[] = [
-  {
-    title: "Stay Somewhere That Means Something",
-    subtitle: "Homes rooted in culture, not just comfort.",
-    image: "/Africanna.jpg",
-  },
-  {
-    title: "Move Like You Belong",
-    subtitle: "Explore with trusted locals who open up the real Africa.",
-    image: "/Eden.jpg",
-  },
-  {
-    title: "Ulô Has Your Back",
-    subtitle: "Helping you settle in, every step of the way.",
-    icon: "/icons/ulo-badge.png",
-    bg: "#5B3A29",
-  },
-  {
-    title: "Pay However Feels Right",
-    subtitle: "Borderless payments, so you can focus on the journey.",
-    icon: "/icons/coweries.png",
-    bg: "#12312A",
-  },
-  {
-    title: "Comfort, Reimagined",
-    subtitle: "Modern stays without losing the soul of the place.",
-    image: "/Urban.jpg",
-  },
-];
+const ARROW_BASE = "h-11 w-11 flex items-center justify-center rounded-full border transition";
+const ARROW_ACTIVE = "border-neutral-900 bg-neutral-900 text-white hover:bg-neutral-700";
+const ARROW_IDLE = "border-neutral-300 bg-transparent text-neutral-400 cursor-default";
 
-const NotAListingSection: React.FC = () => {
+const NotAListingSection: React.FC<NotAListingSectionProps> = ({ listing }) => {
+  const { cards } = listing;
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "start",
     loop: false,
@@ -54,27 +27,22 @@ const NotAListingSection: React.FC = () => {
   const [canScrollNext, setCanScrollNext] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
 
-  const onSelect = useCallback(() => {
+  // Drag-free scrolling doesn't always fire "select", so refresh the arrows on every scroll too.
+  const update = useCallback(() => {
     if (!emblaApi) return;
     setCanScrollPrev(emblaApi.canScrollPrev());
     setCanScrollNext(emblaApi.canScrollNext());
-  }, [emblaApi]);
-
-  const onScroll = useCallback(() => {
-    if (!emblaApi) return;
     const progress = Math.max(0, Math.min(1, emblaApi.scrollProgress()));
     setScrollProgress(progress * 100);
   }, [emblaApi]);
 
   useEffect(() => {
     if (!emblaApi) return;
-    onSelect();
-    onScroll();
-    emblaApi.on("select", onSelect);
-    emblaApi.on("reInit", onSelect);
-    emblaApi.on("scroll", onScroll);
-    emblaApi.on("reInit", onScroll);
-  }, [emblaApi, onSelect, onScroll]);
+    update();
+    const events = ["select", "scroll", "settle", "reInit", "resize"] as const;
+    events.forEach((event) => emblaApi.on(event, update));
+    return () => events.forEach((event) => emblaApi.off(event, update));
+  }, [emblaApi, update]);
 
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
@@ -90,13 +58,15 @@ const NotAListingSection: React.FC = () => {
     <section className="bg-[#F4EEE2] py-20 md:py-28">
       <div className="max-w-3xl mx-auto px-6 text-center">
         <h2 className="text-4xl md:text-6xl font-bold text-neutral-900 leading-[1.05] tracking-tight">
-          Africa is not a listing.
-          <br />
-          It’s lived.
+          {listing.titleLine1}
+          {listing.titleLine2 && (
+            <>
+              <br />
+              {listing.titleLine2}
+            </>
+          )}
         </h2>
-        <p className="mt-5 text-lg text-neutral-500">
-          Built for a deeper way to experience Africa
-        </p>
+        {listing.subtitle && <p className="mt-5 text-lg text-neutral-500">{listing.subtitle}</p>}
       </div>
 
       <div className="mt-14">
@@ -104,7 +74,7 @@ const NotAListingSection: React.FC = () => {
           <div className="flex gap-5 pl-6 md:pl-[max(1.5rem,calc((100vw-72rem)/2))]">
             {cards.map((card, index) => (
               <div
-                key={index}
+                key={card.id}
                 className={`flex-[0_0_82%] sm:flex-[0_0_55%] lg:flex-[0_0_37%] min-w-0 ${
                   index === cards.length - 1
                     ? "mr-6 md:mr-[max(1.5rem,calc((100vw-72rem)/2))]"
@@ -112,24 +82,24 @@ const NotAListingSection: React.FC = () => {
                 }`}
               >
                 <div className="relative aspect-[3/2] rounded-3xl overflow-hidden">
-                  {card.image ? (
+                  {card.style === "photo" ? (
                     <img
                       src={card.image}
-                      alt={card.title}
+                      alt=""
+                      loading="lazy"
                       className="absolute inset-0 w-full h-full object-cover"
                     />
                   ) : (
                     <div
                       className="absolute inset-0 flex items-center justify-center"
-                      style={{ backgroundColor: card.bg }}
+                      style={{ backgroundColor: card.background }}
                     >
-                      {card.icon && (
-                        <img
-                          src={card.icon}
-                          alt=""
-                          className="h-auto w-40 md:w-52 object-contain opacity-90"
-                        />
-                      )}
+                      <img
+                        src={card.image}
+                        alt=""
+                        loading="lazy"
+                        className="h-auto w-40 md:w-52 object-contain opacity-90"
+                      />
                     </div>
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
@@ -163,18 +133,20 @@ const NotAListingSection: React.FC = () => {
 
         <div className="hidden sm:flex items-center gap-3">
           <button
+            type="button"
             onClick={scrollPrev}
             disabled={!canScrollPrev}
             aria-label="Previous"
-            className="h-11 w-11 flex items-center justify-center rounded-full border border-neutral-300 text-neutral-900 disabled:opacity-30 hover:bg-black/5 transition"
+            className={`${ARROW_BASE} ${canScrollPrev ? ARROW_ACTIVE : ARROW_IDLE}`}
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
           <button
+            type="button"
             onClick={scrollNext}
             disabled={!canScrollNext}
             aria-label="Next"
-            className="h-11 w-11 flex items-center justify-center rounded-full bg-neutral-900 text-white disabled:opacity-30 hover:bg-neutral-700 transition"
+            className={`${ARROW_BASE} ${canScrollNext ? ARROW_ACTIVE : ARROW_IDLE}`}
           >
             <ChevronRight className="h-5 w-5" />
           </button>
@@ -186,7 +158,7 @@ const NotAListingSection: React.FC = () => {
           onClick={scrollToExplore}
           className="group inline-flex items-center gap-2 rounded-full border border-neutral-900 px-6 py-3 text-neutral-900 font-medium hover:bg-neutral-900 hover:text-white transition"
         >
-          Explore Further
+          {listing.linkLabel}
           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
         </button>
       </div>
