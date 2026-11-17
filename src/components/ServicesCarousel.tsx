@@ -70,7 +70,7 @@ const ServicesCarousel: React.FC<ServicesCarouselProps> = ({ sectionId }) => {
         >
           {/* Track */}
           <div
-            className="flex transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
+            className="flex transition-transform duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)]"
             style={{
               transform: `translateX(-${(100 / visibleSlides) * current}%)`,
             }}
